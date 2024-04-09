@@ -10,7 +10,9 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
-    statusBar = new StatusBar();
+    liveStatusBar = new LiveStatusBar();
+    bottleStatusBar = new BottleStatusBar();
+    coinStatusBar = new CoinStatusBar();
     throwableObjects = [];
 
     constructor(canvas, keyboard) {
@@ -34,21 +36,21 @@ class World {
     }
 
     checkThrowObjects() {
-        if(this.keyboard.D) {
+        if (this.keyboard.D) {
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.throwableObjects.push(bottle);
         }
     }
 
     checkCollisions() {
-        
-            this.level.enemies.forEach((enemy) => {
-                if (this.character.isColliding(enemy)) {
-                    this.character.hit();
-                    this.statusBar.setPercentage(this.character.energy);
-                    console.log('Energy:', this.character.energy);
-                }
-            });
+
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isColliding(enemy)) {
+                this.character.hit();
+                this.liveStatusBar.setPercentage(this.character.energy);
+                console.log('Energy:', this.character.energy);
+            }
+        });
     }
 
     draw() {
@@ -57,17 +59,22 @@ class World {
 
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
-
         this.ctx.translate(-this.camera_x, 0);
-        // ----------------Space for fixed objects -------------------//
-        this.addToMap(this.statusBar);
-        this.ctx.translate(this.camera_x, 0);
 
-        this.addToMap(this.character);
+        // ----------------Space for fixed objects -------------------//
+
+
+
+        this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.clouds);
+        this.addToMap(this.character);
+
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.throwableObjects);
         this.ctx.translate(-this.camera_x, 0);
+        this.addToMap(this.liveStatusBar);
+        this.addToMap(this.coinStatusBar);
+        this.addToMap(this.bottleStatusBar);
 
 
         //draw() wird immer wieder aufgerufen

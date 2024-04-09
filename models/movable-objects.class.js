@@ -5,6 +5,7 @@ class MovableObject extends DrawableObject {
     acceleration = 2.5;
     energy = 100;
     lastHit = 0;
+    lastKeyDown = 0;
 
 
     applyGravity() {
@@ -24,10 +25,13 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    isIdle() {
+
+    }
 
 
 
-
+    //character.isColliding(chicken);
     isColliding(mo) {
         return this.x + this.width > mo.x &&
             this.y + this.height > mo.y &&
@@ -36,12 +40,31 @@ class MovableObject extends DrawableObject {
     }
 
     // // isColliding(chicken);
-    // isColliding(obj) {
-    //     return (this.X + this.width) >= obj.X && this.X <= (obj.X + obj.width) && 
-    //     (this.Y + this.offsetY + this.height) >= obj.Y &&
-    //     (this.Y + this.offsetY) <= (obj.Y + obj.height) && 
-    //     obj.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
+    // isColliding(mo) {
+    //     return (this.X + this.width) >= mo.X && this.X <= (mo.X + mo.width) && 
+    //     (this.Y + this.offsetY + this.height) >= mo.Y &&
+    //     (this.Y + this.offsetY) <= (mo.Y + mo.height) && 
+    //     mo.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
     // }
+
+    
+
+    startSleepTimer() {
+        this.lastKeyDown = new Date().getTime(); // set the initial time when a key was last pressed
+
+        // check if no keys are pressed for 5 seconds
+        setInterval(() => {
+            const currentTime = new Date().getTime();
+            const timeDifference = (currentTime - this.lastKeyDown) / 1000; // calculate time difference in seconds
+            if (timeDifference >= 5) {
+                this.isSleeping(); // if no keys pressed for 5 seconds, play sleeping animation
+            }
+        }, 1000); // check every second
+    }
+
+isSleeping() {
+        
+    }
 
     hit() {
         this.energy -= 5;
