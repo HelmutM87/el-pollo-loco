@@ -32,12 +32,12 @@ class MovableObject extends DrawableObject {
 
 
     //character.isColliding(chicken);
-    isColliding(mo) {
-        return this.x + this.width > mo.x &&
-            this.y + this.height > mo.y &&
-            this.x < mo.x &&
-            this.y < mo.y + mo.height;
-    }
+    // isColliding(mo) {
+    //     return this.x + this.width > mo.x &&
+    //         this.y + this.height > mo.y &&
+    //         this.x < mo.x &&
+    //         this.y < mo.y + mo.height;
+    // }
 
     // // isColliding(chicken);
     // isColliding(mo) {
@@ -66,6 +66,14 @@ isSleeping() {
         
     }
 
+    pickBottle() {
+
+    }
+
+    pickCoin() {
+            this.energy += 5;
+    }
+
     hit() {
         this.energy -= 5;
         if (this.energy < 0) {
@@ -85,12 +93,12 @@ isSleeping() {
         return this.energy == 0;
     }
 
-    playAnimation(images) {
-        let i = this.currentImage % images.length;
-        let path = images[i];
-        this.img = this.imageCache[path];
-        this.currentImage++;
-    }
+    // playAnimation(images) {
+    //     let i = this.currentImage % images.length;
+    //     let path = images[i];
+    //     this.img = this.imageCache[path];
+    //     this.currentImage++;
+    // }
 
     moveRight() {
         this.x += this.speed;

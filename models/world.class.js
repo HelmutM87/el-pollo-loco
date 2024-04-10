@@ -5,6 +5,8 @@ class World {
     level = level1;
     enemies = level1.enemies;
     clouds = level1.clouds;
+    bottles = level1.bottles;
+    coins = level1.coins;
     backgroundObjects = level1.backgroundObjects;
     canvas;
     ctx;
@@ -13,6 +15,7 @@ class World {
     liveStatusBar = new LiveStatusBar();
     bottleStatusBar = new BottleStatusBar();
     coinStatusBar = new CoinStatusBar();
+    // bottle = new Bottle();
     throwableObjects = [];
 
     constructor(canvas, keyboard) {
@@ -59,6 +62,8 @@ class World {
 
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
+         this.addObjectsToMap(this.level.bottles);
+         
         this.ctx.translate(-this.camera_x, 0);
 
         // ----------------Space for fixed objects -------------------//
@@ -67,21 +72,26 @@ class World {
 
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.clouds);
+        this.addObjectsToMap(this.level.coins); 
         this.addToMap(this.character);
+         
+
 
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.throwableObjects);
         this.ctx.translate(-this.camera_x, 0);
         this.addToMap(this.liveStatusBar);
-        this.addToMap(this.coinStatusBar);
+        // this.addToMap(this.coinStatusBar);
         this.addToMap(this.bottleStatusBar);
+        
 
 
-        //draw() wird immer wieder aufgerufen
+        // draw() wird immer wieder aufgerufen
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
         });
+       
     }
 
     addObjectsToMap(objects) {

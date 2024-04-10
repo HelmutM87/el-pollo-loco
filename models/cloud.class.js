@@ -9,15 +9,21 @@ class Cloud extends MovableObject {
             'img_pollo_locco/img/5_background/layers/4_clouds/2.png');
 
         this.x = 0 + Math.random() * 7500;
+        // this.speed = 0.15 + Math.random() * 0.5;
         this.animate();
 
     }
 
     animate() {
+
+        setInterval(() => {
+            this.moveLeft();
+        }, 1000 / 20);
+
         this.moveLeft();
-        
+
     }
 
-  
+
 
 }
