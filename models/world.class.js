@@ -14,8 +14,8 @@ class World {
     camera_x = 0;
     liveStatusBar = new LiveStatusBar();
     bottleStatusBar = new BottleStatusBar();
+    endbossStatusBar = new EndbossStatusBar();
     coinStatusBar = new CoinStatusBar();
-    // bottle = new Bottle();
     throwableObjects = [];
 
     constructor(canvas, keyboard) {
@@ -34,9 +34,14 @@ class World {
     run() {
         setInterval(() => {
             this.checkCollisions();
+
             this.checkThrowObjects();
-        }, 500);
+        }, 200);
     }
+
+
+
+
 
     checkThrowObjects() {
         if (this.keyboard.D) {
@@ -45,16 +50,45 @@ class World {
         }
     }
 
+
+
+
+
     checkCollisions() {
 
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
+                console.log('Pepe is colliding with', enemy);
                 this.character.hit();
+                this.liveStatusBar.setPercentage(this.character.energy);
+                // this.endbossStatusBar.setPercentage(this.endboss.energy);
+                console.log('Energy:', this.character.energy);
+            } 
+
+        });
+
+        this.level.coins.forEach((coin, index) => {
+              if (this.character.isColliding(coin)) {
+                console.log('Pepe is colliding with', coin);
+                this.character.pickCoin();
+                level1.coins.splice(index,1);
                 this.liveStatusBar.setPercentage(this.character.energy);
                 console.log('Energy:', this.character.energy);
             }
         });
+
+        this.level.bottles.forEach((bottle, index) => {
+            if (this.character.isColliding(bottle)) {
+              console.log('Pepe is colliding with', bottle);
+              this.character.pickBottle();
+              level1.bottles.splice(index,1);
+              this.bottleStatusBar.setStock(this.character.bottleDepot);
+              console.log('Pepe has', this.character.bottleDepot, 'bottles');
+          }
+      });
     }
+
+    
 
     draw() {
         //alles wird gecleart, bevor es neu gezeichnet wird
@@ -62,8 +96,8 @@ class World {
 
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
-         this.addObjectsToMap(this.level.bottles);
-         
+        this.addObjectsToMap(this.level.bottles);
+
         this.ctx.translate(-this.camera_x, 0);
 
         // ----------------Space for fixed objects -------------------//
@@ -72,18 +106,18 @@ class World {
 
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.clouds);
-        this.addObjectsToMap(this.level.coins); 
-        this.addToMap(this.character);
-         
-
+        this.addObjectsToMap(this.level.coins);
 
         this.addObjectsToMap(this.level.enemies);
+        this.addToMap(this.character);
         this.addObjectsToMap(this.throwableObjects);
         this.ctx.translate(-this.camera_x, 0);
+
         this.addToMap(this.liveStatusBar);
+        this.addToMap(this.endbossStatusBar);
         // this.addToMap(this.coinStatusBar);
         this.addToMap(this.bottleStatusBar);
-        
+
 
 
         // draw() wird immer wieder aufgerufen
@@ -91,7 +125,7 @@ class World {
         requestAnimationFrame(function () {
             self.draw();
         });
-       
+
     }
 
     addObjectsToMap(objects) {
@@ -107,6 +141,7 @@ class World {
 
         mo.draw(this.ctx);
         mo.drawFrame(this.ctx);
+        mo.drawOffset(this.ctx);
 
         if (mo.otherDirection) {
             this.flipImageBack(mo);
@@ -124,5 +159,21 @@ class World {
         mo.x = mo.x * -1;
         this.ctx.restore();
     }
+
+    // pickCoin() {
+    //     this.energy += 5;
+    //     let i = 0;
+    //     this.level.coins.forEach(() => {
+    //         if(this.character.isColliding(level1.coins[i])){
+    //             if(mute == false){
+    //                 this.coinSound.play();
+    //             }
+    //             level1.coins.splice(i,1);
+    //             this.coinStatusBar.collect();
+    //         }
+    //         i++;
+    //     }); 
+
+    // } 
 
 }

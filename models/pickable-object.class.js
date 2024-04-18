@@ -1,8 +1,0 @@
-class PickableObject extends DrawableObject {
-
-
-
-
-
-    
-}

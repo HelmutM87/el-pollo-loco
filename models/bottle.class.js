@@ -1,4 +1,11 @@
-class Bottle extends PickableObject {
+class Bottle extends DrawableObject {
+    offset = {
+        top: 15,
+        left: 30,
+        right: 45,
+        bottom: 25
+    };
+
     IMAGES_ON_GROUND = [
         'img_pollo_locco/img/6_salsa_bottle/1_salsa_bottle_on_ground.png',
     ];
@@ -25,7 +32,7 @@ class Bottle extends PickableObject {
         super().loadImage('img_pollo_locco/img/6_salsa_bottle/1_salsa_bottle_on_ground.png');
 
         this.loadImages(this.IMAGES_ON_GROUND);
-        this.x = 300 + Math.random() * 6800;
+        this.x = -1400 + Math.random() * 8500;
         this.y = 365;
         this.width = 65;
         this.height = 70;
