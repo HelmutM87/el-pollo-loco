@@ -2,13 +2,6 @@ class Chicken extends MovableObject {
     height = 60;
     width = 55;
     y = 360;
-   
-    // offset = {
-    //     top: 3,
-    //     left: 3,
-    //     right: 6,
-    //     bottom: 8
-    // };
 
     offset = {
         top: 0,
@@ -16,8 +9,6 @@ class Chicken extends MovableObject {
         right: 0,
         bottom: 0
     };
-
-  
 
     IMAGES_WALKING = [
         'img_pollo_locco/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
@@ -29,7 +20,7 @@ class Chicken extends MovableObject {
         'img_pollo_locco/img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
     ];
 
-    chicken_dying_sound = new Audio('audio/chicken-dying.mp3');
+    enemy_dying_sound = new Audio('audio/chicken-dying.mp3');
 
     constructor() {
         super().loadImage('img_pollo_locco/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
@@ -37,38 +28,42 @@ class Chicken extends MovableObject {
         this.loadImages(this.IMAGE_DEATH);
 
         this.x = 500 + Math.random() * 8000;
-        this.speed = 0.15 + Math.random() * 2;
+        this.speed = 0.15 + Math.random() * 3;
 
         this.animate();
- 
     }
 
     animate() {
-
-        setInterval(() => {
-         this.moveLeft();
-        }, 1000 / 60);
-
-
-        this.moveLeft();
-
-        setInterval(() => {
-            if (this.isDead()) {
-                this.playAnimation(this.IMAGE_DEATH);
-                this.chicken_dying_sound.play();
-            } else {
-            this.playAnimation(this.IMAGES_WALKING);
-            }
-        }, 200);
-
-        // setInterval(() => {
-        //    let i = this.currentImage % this.IMAGES_WALKING.length;
-        //    let path = this.IMAGES_WALKING[i];
-        //    this.img = this.imageCache[path];
-        //    this.currentImage++;
-        // }, 200);
+        this.moveInterval = setInterval(() => this.moveLeft(), 1000 / 60);
+        this.animationInterval = setInterval(() => this.playChicken(), 200);
     }
 
-    
-    
-}
+    playChicken() {
+        if (this.isKilledCondition()) {
+            this.playAnimation(this.IMAGE_DEATH);
+            this.enemy_dying_sound.play();
+        } else {
+            this.playAnimation(this.IMAGES_WALKING);
+        }
+    }
+
+    isKilledCondition() {
+        // Diese Methode sollte die Bedingung zurückgeben, die überprüft, ob das Huhn getötet wurde
+        // Zum Beispiel: return this.energy <= 0; (wenn es eine Energieeigenschaft gibt)
+        return false; // Platzhalter, die tatsächliche Bedingung hier einfügen
+    }
+
+    isKilled() {
+        // Stoppe alle Intervalle, wenn das Huhn getötet wird
+        this.stopAllIntervals();
+
+        // Führe weitere Aktionen aus
+        this.playAnimation(this.IMAGE_DEATH);
+        this.enemy_dying_sound.play();
+    }
+
+    stopAllIntervals() {
+        clearInterval(this.moveInterval);
+        clearInterval(this.animationInterval);
+    }
+} 

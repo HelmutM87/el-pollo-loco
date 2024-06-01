@@ -9,50 +9,60 @@ class BabyChicken extends MovableObject {
         bottom: 8
     };
 
-    // offset = {
-    //     top: 0,
-    //     left: 0,
-    //     right: 0,
-    //     bottom: 0
-    // };
-    IMAGES_CHICKS_WALKING = [
+    IMAGES_WALKING = [
         'img_pollo_locco/img/3_enemies_chicken/chicken_small/1_walk/1_w.png',
         'img_pollo_locco/img/3_enemies_chicken/chicken_small/1_walk/2_w.png',
-        'img_pollo_locco/img/3_enemies_chicken/chicken_small/1_walk/3_w.png',
+        'img_pollo_locco/img/3_enemies_chicken/chicken_small/1_walk/3_w.png'
     ];
-    IMAGE_CHICK_DEATH = [
+
+    IMAGE_DEATH = [
         'img_pollo_locco/img/3_enemies_chicken/chicken_small/2_dead/dead.png'
     ];
 
-    baby_chicken_dying_sound = new Audio('audio/baby-chicken-dying.mp3');
-
+    enemy_dying_sound = new Audio('audio/baby-chicken-dying.mp3');
 
     constructor() {
         super().loadImage('img_pollo_locco/img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
-        this.loadImages(this.IMAGES_CHICKS_WALKING);
-        this.loadImages(this.IMAGE_CHICK_DEATH);
+        this.loadImages(this.IMAGES_WALKING);
+        this.loadImages(this.IMAGE_DEATH);
 
         this.x = 500 + Math.random() * 8000;
-        this.speed = 0.15 + Math.random() * 2;
+        this.speed = 0.15 + Math.random() * 3;
 
         this.animate();
     }
 
     animate() {
-
-        setInterval(() => {
-            this.moveLeft();
-        }, 1000 / 60);
-
-        this.moveLeft();
-
-        setInterval(() => {
-            this.playAnimation(this.IMAGES_CHICKS_WALKING);
-        }, 200);
-
+        this.moveInterval = setInterval(() => this.moveLeft(), 1000 / 60);
+        this.animationInterval = setInterval(() => this.playBabyChicken(), 200);
     }
 
+    playBabyChicken() {
+        if (this.isKilledCondition()) {
+            this.playAnimation(this.IMAGE_DEATH);
+            this.enemy_dying_sound.play();
+        } else {
+            this.playAnimation(this.IMAGES_WALKING);
+        }
+    }
 
+    isKilledCondition() {
+        // Diese Methode sollte die Bedingung zurückgeben, die überprüft, ob das Küken getötet wurde
+        // Zum Beispiel: return this.energy <= 0; (wenn es eine Energieeigenschaft gibt)
+        return false; // Platzhalter, die tatsächliche Bedingung hier einfügen
+    }
 
+    isKilled() {
+        // Stoppe alle Intervalle, wenn das Küken getötet wird
+        this.stopAllIntervals();
 
+        // Führe weitere Aktionen aus
+        this.playAnimation(this.IMAGE_DEATH);
+        this.enemy_dying_sound.play();
+    }
+
+    stopAllIntervals() {
+        clearInterval(this.moveInterval);
+        clearInterval(this.animationInterval);
+    }
 }

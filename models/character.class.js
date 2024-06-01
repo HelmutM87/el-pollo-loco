@@ -25,13 +25,15 @@ class Character extends MovableObject {
     isWalking = false;
 
     world;
-    background_music = new Audio('audio/background-music.mp3');
+    
     sleeping_sound = new Audio('audio/snore.mp3');
     walking_sound = new Audio('audio/pepe-running.mp3');
     jumping_sound = new Audio('audio/jump.mp3');
     hit_sound = new Audio('audio/ouch.mp3');
     dying_sound = new Audio('audio/aaaawww-loser.mp3');
     game_over_sound = new Audio('audio/loser-song.mp3');
+    collectCoin_sound = new Audio('audio/coin.mp3');
+    collectBottle_sound = new Audio('audio/glass.mp3');
 
     IMAGES_IDLE = [
         'img_pollo_locco/img/2_character_pepe/1_idle/idle/I-1.png',
@@ -166,18 +168,22 @@ class Character extends MovableObject {
     canJump() {
         return this.world.keyboard.SPACE && !this.isAboveGround();
     }
-
     playCharacter() {
         if (this.isSleeping()) {
             this.isWalking = false;
             this.playAnimation(this.IMAGES_SLEEPING);
         } else if (this.isDead()) {
             this.playAnimation(this.IMAGES_DEAD);
+            // Hintergrundmusik stoppen
+            this.world.background_music.pause();
+            this.world.background_music.currentTime = 0; // Optional: Zurückspulen der Hintergrundmusik
+            // Todessound abspielen
+            this.dying_sound.play();
         } else if (this.isHurt()) {
-            
+            this.sleeping_sound.pause();
             this.playAnimation(this.IMAGES_HURT);
-            
             this.hit_sound.play();
+            this.stopSleeping(); // Stoppen des Schlafens, wenn der Charakter verletzt wird
         } else if (this.isAboveGround()) {
             this.playAnimation(this.IMAGES_JUMPING);
         } else {
@@ -186,22 +192,22 @@ class Character extends MovableObject {
             }
         }
     }
+    
 
     startIdleTimer() {
         this.idleTimer = setInterval(() => {
             const currentTime = new Date().getTime();
             const elapsedTime = currentTime - this.lastKeyPressTime;
-            if (elapsedTime >= 3000) {
+    
+            if (elapsedTime >= 8000 && !this.isDead()) { // Überprüfen, ob der Charakter tot ist
                 this.isSleepingAnimationPlaying = true;
                 this.playAnimation(this.IMAGES_SLEEPING);
-                // this.sleeping_sound.play();
+                this.sleeping_sound.play();
             } else {
-                
-                // this.isSleepingAnimationPlaying = false;
+                this.isSleepingAnimationPlaying = false;
                 this.sleeping_sound.pause();
-                if (!this.isDead() && !this.isHurt() && !this.isAboveGround() && !this.isWalking) {
+                if (!this.isDead() && !this.isHurt() && !this.isAboveGround() && !this.isSleeping() && !this.isWalking) {
                     this.playAnimation(this.IMAGES_IDLE);
-                    
                 }
             }
         }, 200);
@@ -216,21 +222,29 @@ class Character extends MovableObject {
         this.lastKeyPressTime = new Date().getTime();
     }
     isSleeping() {
-
+        return this.isSleepingAnimationPlaying && !this.isDead();
     }
 
-    isJumpingOn(mo) {
-        return this.isColliding(mo) && this.isAboveGround();
+    stopSleeping() {
+        if (this.isSleepingAnimationPlaying) {
+            this.isSleepingAnimationPlaying = false;
+            this.sleeping_sound.pause();
+            this.playAnimation(this.IMAGES_IDLE); // Zurück zur Idle-Animation
+        }
     }
 
-    killByTrampling(enemy) {
-        if (enemy.isDead()) return;
-        enemy.hit();
-        // enemy.smash_sound.currentTime = 0;
-        // this.world.playSoundIfSwitchedOn(enemy.smash_sound);
-        // this.world.deleteDeadEnemy(enemy);
-        this.jump();
-    }
+    // isJumpingOn(mo) {
+    //     return this.character.isColliding(mo) && this.character.isAboveGround();
+    // }
+
+    // killByTrampling(enemy) {
+    //     if (enemy.isDead()) return;
+    //     enemy.hit();
+    //     // enemy.smash_sound.currentTime = 0;
+    //     // this.world.playSoundIfSwitchedOn(enemy.smash_sound);
+    //     // this.world.deleteDeadEnemy(enemy);
+    //     this.character.jump();
+    // }
 
 }
 

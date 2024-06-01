@@ -1,7 +1,4 @@
 class ThrowableObject extends MovableObject {
-    // speedY = 20;
-    // speedX = 20;
-
     IMAGES_BOTTLE_FLYING = [
         'img_pollo_locco/img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
         'img_pollo_locco/img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
@@ -18,31 +15,61 @@ class ThrowableObject extends MovableObject {
         'img_pollo_locco/img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ];
 
-    constructor(x, y) {
+    splash_sound = new Audio('audio/broken-bottle.mp3');
+
+    offset = {
+        top: 2,
+        left: 2,
+        right: 4,
+        bottom: 4
+    };
+
+    constructor(x, y, direction) {
         super().loadImage('img_pollo_locco/img/6_salsa_bottle/salsa_bottle.png');
         this.loadImages(this.IMAGES_BOTTLE_FLYING);
+        this.loadImages(this.IMAGES_BOTTLE_SPLASH);
         this.x = x;
         this.y = y;
         this.height = 60;
         this.width = 50;
+        this.direction = direction; // Store the direction the character is facing
         this.throw();
         this.animate();
     }
 
     throw() {
-
         this.speedY = 30;
         this.applyGravity();
-        setInterval(() => {
-            this.x += 10;
-            
+        this.throwInterval = setInterval(() => {
+            if (this.direction) {
+                this.x -= 10; // Move left
+            } else {
+                this.x += 10; // Move right
+            }
+            if (this.y > 360) {
+                this.splash();
+                this.splash_sound.play();
+                // this.speedY = 0;
+            }
         }, 25);
     }
 
     animate() {
-        setInterval(() => {
+        this.animationInterval = setInterval(() => {
             this.playAnimation(this.IMAGES_BOTTLE_FLYING);
-        }, 60);
+        }, 30);
     }
 
-} 
+    splash() {
+        clearInterval(this.throwInterval);
+        clearInterval(this.animationInterval);
+        this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
+        this.speedY = 0;
+        setTimeout(() => {
+            const index = world.throwableObjects.indexOf(this);
+            if (index > -1) {
+                world.throwableObjects.splice(index, 1);
+            }
+        }, this.IMAGES_BOTTLE_SPLASH.length * 60); // Animation duration
+    }
+}

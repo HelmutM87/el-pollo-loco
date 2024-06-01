@@ -50,6 +50,12 @@ class DrawableObject {
     }
 
     isColliding(mo) {
+
+        if (!mo) {
+            console.error('Colliding object is undefined');
+            return false;
+        }
+
         return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
            
             this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
@@ -57,34 +63,14 @@ class DrawableObject {
             this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
     }
 
-    // checkTramplings(){
-    //         this.level.enemies.forEach((mo) => {
-    //             if (this.character.isTrampling(mo)) {
-    //                 this.character.jump();
-    //                 // this.liveStatusBar.setPercentage(this.character.energy);
-    //                 // console.log('Energy:', this.character.energy);
-    //             }
-    //         });
-    //     }
-
-    // checkTramplings () {
-    //     setInterval(() => {
-    //     isTrampling();
-    //     }, 500);
-    // }
+    isTrampling(mo){
+        return this.isColliding(mo) && this.isAboveGround();
+    }
 
 
-    // isTrampling(enemy) {
-    //     return this.isColliding(enemy) && this.isAboveGround();
-    // }
-
-    // isTrampling(enemy) {
-    //     return  this.isColliding(enemy) && this.isAboveGround();
-    // }
-
-
+//blue frame
     drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Chicken || this instanceof BabyChicken || this instanceof Endboss || this instanceof Coin || this instanceof Bottle) {
+        if (this instanceof Character || this instanceof Chicken || this instanceof BabyChicken || this instanceof Endboss || this instanceof Coin || this instanceof Bottle || this instanceof ThrowableObject) {
             ctx.beginPath();
             ctx.lineWidth = '2';
             ctx.strokeStyle = 'blue';
@@ -94,9 +80,9 @@ class DrawableObject {
 
     }
 
-
+// red frame
     drawOffset(ctx) {
-        if (this instanceof Character || this instanceof Chicken || this instanceof BabyChicken || this instanceof Endboss || this instanceof Coin || this instanceof Bottle) {
+        if (this instanceof Character || this instanceof Chicken || this instanceof BabyChicken || this instanceof Endboss || this instanceof Coin || this instanceof Bottle || this instanceof ThrowableObject) {
             ctx.beginPath();
             ctx.lineWidth = '2';
             ctx.strokeStyle = 'red';
@@ -120,12 +106,12 @@ class DrawableObject {
        
         this.energy += 5;
         
-        // this.character.collectCoin_sound.play();
+        
     } 
     
     pickBottle() {
         this.bottleDepot += 1;
-       
+       console.log('Pepe picked a bottle');
     }
 
     // pickCoin() {

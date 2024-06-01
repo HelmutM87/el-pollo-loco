@@ -29,13 +29,13 @@ class BottleStatusBar extends DrawableObject {
     resolveImageIndex() {
         if (this.stock >= 10) {
             return 5;
-        } else if (this.stock > 8) {
+        } else if (this.stock > 7) {
             return 4;
-        } else if (this.stock > 6) {
+        } else if (this.stock > 5) {
             return 3;
-        } else if (this.stock > 4) {
+        } else if (this.stock > 3) {
             return 2;
-        } else if (this.stock > 2) {
+        } else if (this.stock > 0) {
             return 1;
         } else {
             return 0;

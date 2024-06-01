@@ -30,6 +30,10 @@ canvas {
     display:block;
 }
 
+.start_background {
+    background-image: url('/images/pepe-peligrosso.jpeg');
+    z-index: 2;
+}
 
 
 @media only screen and (max-width: 720px) {
@@ -37,6 +41,7 @@ canvas {
     
 
     canvas {
+        z-index: 1;
         width: 100%;
     }
 }

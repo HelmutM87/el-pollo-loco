@@ -50,7 +50,7 @@ class MovableObject extends DrawableObject {
     //         this.y < mo.y + mo.height;
     // }
 
-    
+
 
     // isColliding(chicken);
     // isColliding(mo) {
@@ -74,10 +74,10 @@ class MovableObject extends DrawableObject {
     // }
 
 
-    
-    
 
-    
+
+
+
 
     //     startSleepTimer() {
     //         this.lastKeyDown = new Date().getTime(); // set the initial time when a key was last pressed
@@ -94,9 +94,9 @@ class MovableObject extends DrawableObject {
 
 
 
-    
 
-    
+
+
 
 
     hit() {
@@ -108,7 +108,7 @@ class MovableObject extends DrawableObject {
         }
     }
 
-    
+
 
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit; // Difference in ms
@@ -141,4 +141,24 @@ class MovableObject extends DrawableObject {
         this.jumping_sound.play();
     }
 
+
+    decreaseBottleDepot() {
+        this.bottleDepot -= 1;
+
+        if (this.bottleDepot < 1) {
+            this.bottleDepot = 0;
+        }
+        console.log('Pepe has now', this.bottleDepot, 'bottles');
+    }
+
+    isKilled() {
+        // this.playAnimation(this.IMAGES_WALKING);
+
+        this.playAnimation(this.IMAGE_DEATH);
+        this.enemy_dying_sound.play();
+        // this.clearInterval(this.moveLeft);     
+    }
+    kill() {
+        // this.playAnimation(this.IMAGE_DEATH);
+    }
 }           

@@ -43,6 +43,6 @@ class LiveStatusBar extends DrawableObject {
             return 0;
         }
     }
-
+6
       
 }
