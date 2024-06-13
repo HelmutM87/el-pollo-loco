@@ -32,27 +32,28 @@ class ThrowableObject extends MovableObject {
         this.y = y;
         this.height = 60;
         this.width = 50;
-        this.direction = direction; // Store the direction the character is facing
+        this.direction = direction;
         this.throw();
         this.animate();
     }
+
 
     throw() {
         this.speedY = 30;
         this.applyGravity();
         this.throwInterval = setInterval(() => {
             if (this.direction) {
-                this.x -= 10; // Move left
+                this.x -= 4;
             } else {
-                this.x += 10; // Move right
+                this.x += 6;
             }
             if (this.y > 360) {
                 this.splash();
                 this.splash_sound.play();
-                // this.speedY = 0;
             }
         }, 25);
     }
+
 
     animate() {
         this.animationInterval = setInterval(() => {
@@ -60,6 +61,7 @@ class ThrowableObject extends MovableObject {
         }, 30);
     }
 
+    
     splash() {
         clearInterval(this.throwInterval);
         clearInterval(this.animationInterval);
@@ -70,6 +72,6 @@ class ThrowableObject extends MovableObject {
             if (index > -1) {
                 world.throwableObjects.splice(index, 1);
             }
-        }, this.IMAGES_BOTTLE_SPLASH.length * 60); // Animation duration
+        }, this.IMAGES_BOTTLE_SPLASH.length * 60);
     }
 }

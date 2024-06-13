@@ -2,66 +2,148 @@
 <html lang="en" translate="no">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
-    <title>El Pollo Loco</title>
-    <link rel="stylesheet" href="/style.css">
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
-    <link rel="manifest" href="/favicon/site.webmanifest">
-    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
-    <script src="models/drawable-object.class.js"></script>
-    <script src="models/movable-objects.class.js"></script>
-    <script src="models/character.class.js"></script>
-    <script src="models/chicken.class.js"></script>
-    <script src="models/baby-chicken.class.js "></script>
-    <script src="models/cloud.class.js"></script>
-    <script src="models/bottle.class.js"></script>
-    <script src="models/coin.class.js"></script>
-    <script src="models/endboss-live-status-bar.class.js"></script>
-    <script src="models/live-status-bar-class.js"></script>
-    <script src="models/bottle-status-bar.class.js"></script>
-    <script src="models/coin-status-bar.class.js"></script>
-    <script src="models/world.class.js"></script>
-    <script src="models/background-object.class.js"></script>
-    <script src="models/keyboard.class.js"></script>
-    <script src="models/level.class.js"></script>
-    <script src="models/throwable-object.class.js"></script>
-    <script src="models/endboss.class.js"></script>
-    <script src="models/levels/level1.js"></script>
-    <script src="/js/game.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>El Pollo Loco</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/favicon/site.webmanifest">
+  <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
+  <script src="models/drawable-object.class.js"></script>
+  <script src="models/movable-objects.class.js"></script>
+  <script src="models/character.class.js"></script>
+  <script src="models/chicken.class.js"></script>
+  <script src="models/baby-chicken.class.js "></script>
+  <script src="models/cloud.class.js"></script>
+  <script src="models/bottle.class.js"></script>
+  <script src="models/coin.class.js"></script>
+  <script src="models/endboss-live-status-bar.class.js"></script>
+  <script src="models/live-status-bar-class.js"></script>
+  <script src="models/bottle-status-bar.class.js"></script>
+  <script src="models/coin-status-bar.class.js"></script>
+  <script src="models/world.class.js"></script>
+  <script src="models/background-object.class.js"></script>
+  <script src="models/keyboard.class.js"></script>
+  <script src="models/level.class.js"></script>
+  <script src="models/throwable-object.class.js"></script>
+  <script src="models/endboss.class.js"></script>
+  <script src="models/levels/level1.js"></script>
+  <script src="/js/game.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 </head>
 
-<body onload="init()">
-    <div id="fullscreen">
-        <h1>EL POLLO LOCO</h1>
-        <canvas id="canvas" width="720" height="480">
-            <div class="start_background">
+<body>
 
-            </div>
-            <div>
-              <div>
-                Move Left
-              </div>  
-              <div>
-                Move Right
-              </div> 
-              <div>
-                Jump
-              </div> 
-              <div>
-                Throw Bottle
-              </div> 
-            </div>
+  <h1>EL POLLO LOCO</h1>
+
+  <div id="start_screen" class="start_screen">
+
+    <div id="won" class="won_bg, d-none">
+      <h1>YOU WON!</h1>
+      <div onclick="menu()" id="replay_button" class="replay_button">
+        MENU
+      </div>
     </div>
-    
 
-    </canvas>
-    
+    <div id="lost" class="lost_bg, d-none">
+      <div id="game_over_overlay" class="game_over_overlay">
+        <div onclick="menu()" id="replay_button" class="replay_button">
+          MENU
+        </div>
+      </div>
+    </div>
+
+    <div id="info" class="info_bg d-none" onclick="closeInfo()">
+      <p>
+        In the middle of the Mexican nowhere lives Pepe Peligrosso.
+        In the scorching midday heat, as he enjoys his beloved siesta, the peaceful silence is suddenly shattered by
+        the screeching and clucking of a flock of crazed chickens. Pepe rubs his eyes and can hardly believe what he
+        sees: an army of mad chickens charging at him like they're possessed!
+      </p>
+      <p>
+        Armed with nothing but his trusty sombrero and a few bottles of chili sauce, he faces the attacks. But he must
+        be smart – the chili sauce is limited, and he desperately needs it for the final battle. He decides to
+        overpower the chickens by jumping on them and knocking them out.
+      </p>
+      <p>
+        As he battles the crazed chickens, he finds scattered gold coins that give him new life and hope.
+      </p>
+      <p>
+        Just when Pepe thinks he's gaining the upper hand, the dreaded POLLO LOCO emerges from the dust – a gigantic,
+        fearsome chicken that is the source of all the chaos. Pepe knows this is the moment he's been saving his chili
+        sauce for. With skill and courage, he faces the formidable foe.
+      </p>
+      <p>
+        Take on the challenge and help Pepe in his battle in the Mexican desert!
+      </p>
+
+      <h2 style="font-weight: 100;">How to Play</h2>
+
+      <div class="key_manual">
+        <div>
+          <img src="/images/arrow-left-key.png" alt="Here should be an arrow-left-key">
+          Move Left
+        </div>
+        <div>
+          <img src="/images/arrow-right-key.png" alt="Here should be an arrow-right-key">
+          Move Right
+        </div>
+        <div>
+          <img src="/images/jump-key.png" alt="">
+          Jump
+        </div>
+        <div>
+          <img src="/images/d-key.png" alt="">
+          Throw Bottle
+        </div>
+      </div>
+    </div>
+
+    <div id="canvas_navbar_header" class="canvas_navbar_header">
+      <img class="button, d-none" id="my_mute_button" onclick="toggleAudio()" src="/images/audio.png"
+        alt="audio-button">
+      <img class="button" onclick="openInfo()" src="/images/info.png" alt="">
+      <img id="play_button" class="button play_button" onclick="init()" src="/images/play.png" alt="">
+    </div>
+
+    <canvas class="d-none" id="canvas" width="720" height="480"></canvas>
+
+    <div id="canvas_navbar_footer" class="canvas_navbar_footer d-none">
+      <div id="mobile_buttons" class="mobile_buttons">
+        <div style="display: flex;">
+          <div id="go_left_button" class="button">
+            <img src="/images/button-left.png" alt="">
+          </div>
+          <div id="go_right_button" class="button">
+            <img src="/images/button-right.png" alt="">
+          </div>
+        </div>
+
+        <div style="display: flex;">
+          <div id="jump_button" class="button">
+            <img src="/images/button-jump.png" alt="">
+          </div>
+          <div id="throw_button" class="button">
+            <img src="/images/salsa-icon.png" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="orientation_warning" class="orientation_warning">
+      Please turn your device in landscape.
+      <img src="/images/turn_device.png" alt="">
+    </div>
+  </div>
+  
+  
+ 
+  Icons by <a target="_blank" href="https://icons8.com">Icons8</a>
 </body>
 
 </html>

@@ -4,8 +4,6 @@ class DrawableObject {
     currentImage = 0;
     x = 120;
     y = 280;
-
-
     height = 150;
     width = 100;
 
@@ -16,17 +14,6 @@ class DrawableObject {
         bottom: 0
     };
 
-
-    // constructor(){
-    //     this.run();
-    // }
-
-    // run(){
-    //     setInterval(() => {
-    //         this.checkTramplings();
-
-    //     }, 500);
-    // }
 
     loadImage(path) {
         this.img = new Image();
@@ -42,6 +29,7 @@ class DrawableObject {
         }
     }
 
+
     playAnimation(images) {
         let i = this.currentImage % images.length;
         let path = images[i];
@@ -49,26 +37,27 @@ class DrawableObject {
         this.currentImage++;
     }
 
-    isColliding(mo) {
 
+    isColliding(mo) {
         if (!mo) {
             console.error('Colliding object is undefined');
             return false;
         }
 
         return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
-           
+
             this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
             this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
             this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
     }
 
-    isTrampling(mo){
+
+    isTrampling(mo) {
         return this.isColliding(mo) && this.isAboveGround();
     }
 
 
-//blue frame
+    //blue frame
     drawFrame(ctx) {
         if (this instanceof Character || this instanceof Chicken || this instanceof BabyChicken || this instanceof Endboss || this instanceof Coin || this instanceof Bottle || this instanceof ThrowableObject) {
             ctx.beginPath();
@@ -80,7 +69,8 @@ class DrawableObject {
 
     }
 
-// red frame
+
+    // red frame
     drawOffset(ctx) {
         if (this instanceof Character || this instanceof Chicken || this instanceof BabyChicken || this instanceof Endboss || this instanceof Coin || this instanceof Bottle || this instanceof ThrowableObject) {
             ctx.beginPath();
@@ -89,45 +79,25 @@ class DrawableObject {
             ctx.rect(this.x + this.offset.left, this.y + this.offset.top, this.width - this.offset.right, this.height - this.offset.bottom);
             ctx.stroke();
         }
-
     }
 
 
     loadImages(array) {
         array.forEach((path) => {
-
             let img = new Image();
             img.src = path;
             this.imageCache[path] = img;
         });
     }
 
+
     pickCoin() {
-       
         this.energy += 5;
-        
-        
-    } 
-    
-    pickBottle() {
-        this.bottleDepot += 1;
-       console.log('Pepe picked a bottle');
     }
 
-    // pickCoin() {
-    //     this.energy += 5;
-    //     let i = 0;
-    //     this.level.coins.forEach(() => {
-    //         if(this.character.isColliding(level1.coins[i])){
-    //             if(mute == false){
-    //                 this.coinSound.play();
-    //             }
-    //             level1.coins.splice(i,1);
-    //             this.coinStatusBar.collect();
-    //         }
-    //         i++;
-    //     }); 
 
-    // } 
-
+    pickBottle() {
+        this.bottleDepot += 1;
+        console.log('Pepe picked a bottle');
+    }
 }

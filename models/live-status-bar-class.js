@@ -1,5 +1,4 @@
 class LiveStatusBar extends DrawableObject {
-
     IMAGES = [
         'img_pollo_locco/img/7_statusbars/1_statusbar/2_statusbar_health/green/0.png',
         'img_pollo_locco/img/7_statusbars/1_statusbar/2_statusbar_health/green/20.png',
@@ -28,6 +27,7 @@ class LiveStatusBar extends DrawableObject {
         this.img = this.imageCache[path];
     }
 
+
     resolveImageIndex() {
         if (this.percentage >= 100) {
             return 5;
@@ -43,6 +43,4 @@ class LiveStatusBar extends DrawableObject {
             return 0;
         }
     }
-6
-      
 }

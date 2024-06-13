@@ -58,18 +58,19 @@ class Endboss extends MovableObject {
         'img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
 
-    constructor() {
+    constructor(world) {
         super();
+        this.world = world;
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_ALERT);
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGE_DEATH);
-
         this.x = 7400;
         this.animate();
         this.checkLive();
     }
+
 
     checkLive() {
         this.checkLiveInterval = setInterval(() => {
@@ -81,6 +82,7 @@ class Endboss extends MovableObject {
         this.intervalIds.push(this.checkLiveInterval);
     }
 
+
     animate() {
         this.intervalIds.push(setInterval(() => {
             this.moveLeft();
@@ -90,21 +92,20 @@ class Endboss extends MovableObject {
                 this.playAnimation(this.IMAGES_WALKING, 200); // Walking-Animation mit 200 Millisekunden
             }
         }, 200));
-
         this.randomizeSpeed();
     }
+
 
     randomizeSpeed() {
         this.intervalIds.push(setTimeout(() => {
             this.speed = 0; // Endboss anhalten
-
             this.intervalIds.push(setTimeout(() => {
                 this.speed = 0.15 + Math.random() * 5; // Zufällige Geschwindigkeit setzen
                 this.randomizeSpeed(); // Neue Verzögerung und Geschwindigkeit zufällig setzen
             }, Math.random() * 5000)); // Zufällige Verzögerung zwischen 0 und 5000 ms
-
         }, Math.random() * 5000)); // Zufällige Verzögerung zwischen 0 und 5000 ms
     }
+
 
     hit(damage) {
         this.energy -= damage;
@@ -121,56 +122,59 @@ class Endboss extends MovableObject {
         }
     }
 
+
     playHurtAnimation() {
         this.playAnimation(this.IMAGES_HURT);
-
-        // Endboss bewegt sich schnell nach links für 500 Millisekunden
         let moveLeftInterval = setInterval(() => {
             this.moveLeft();
         }, 20);
 
         setTimeout(() => {
-            clearInterval(moveLeftInterval); // Bewegung nach links stoppen nach 500 Millisekunden
+            clearInterval(moveLeftInterval);
             const attackDuration = Math.min(1000, this.IMAGES_ATTACK.length * 200);
             this.playAnimation(this.IMAGES_ATTACK, attackDuration);
             this.attack_sound.play();
-        }, 500); // 500 Millisekunden
+        }, 500);
     }
 
     isKilled() {
-        // Führe weitere Aktionen aus
-
-        this.playAnimation(this.IMAGE_DEATH, 800); // Death-Animation für 1000 Millisekunden
-        this.enemy_dying_sound.play();
         this.attack_sound.pause();
-        // Stoppe alle Intervalle, einschließlich checkLive-Interval, nachdem die Aktionen ausgeführt wurden
+        this.playAnimation(this.IMAGE_DEATH, 800);
+        this.enemy_dying_sound.play();
+
         setTimeout(() => {
             this.stopAllIntervals();
             this.removeFromEnemiesArray();
-        }, 800); // 1000 Millisekunden Verzögerung vor dem Entfernen des Endbosses
+            this.world.battle_music.pause();
+            this.world.isBattleMusicPlaying = false;
+            this.world.winningGame();
+        }, 800); 
     }
 
+
     removeFromEnemiesArray() {
-        // Finde den Index des Endbosses im enemies-Array
         const index = level1.enemies.indexOf(this);
         if (index > -1) {
-            level1.enemies.splice(index, 1); // Entferne den Endboss aus dem Array
+            level1.enemies.splice(index, 1);
         }
     }
+
 
     deleteEnemy() {
         this.stopAllIntervals();
         this.removeFromEnemiesArray();
     }
 
+
     clearAllIntervals() {
         this.intervalIds.forEach(intervalId => clearInterval(intervalId));
         this.intervalIds = [];
     }
 
+
     stopAllIntervals() {
-        clearInterval(this.checkLiveInterval); // Stoppe checkLive-Interval
-        this.intervalIds.forEach(intervalId => clearInterval(intervalId)); // Stoppe alle anderen Intervalle
+        clearInterval(this.checkLiveInterval);
+        this.intervalIds.forEach(intervalId => clearInterval(intervalId));
         this.intervalIds = [];
     }
 }

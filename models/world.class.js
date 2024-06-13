@@ -1,6 +1,4 @@
 class World {
-
-
     character = new Character();
     level = level1;
     enemies = level1.enemies;
@@ -17,12 +15,15 @@ class World {
     endbossStatusBar = new EndbossStatusBar();
     coinStatusBar = new CoinStatusBar();
     throwableObjects = [];
-    // throwableObjects = new ThrowableObject();
     canPressD = true;
     coin_sound = new Audio('audio/coin.mp3');
     bottle_sound = new Audio('audio/glass.mp3');
     background_music = new Audio('audio/background-music.mp3');
-
+    battle_music = new Audio('audio/hen-attac-background-music.mp3');
+    win_music = new Audio('audio/winner-song.mp3');
+    lose_music = new Audio('audio/loser-song.mp3');
+    isBattleMusicPlaying = false;
+    isMuted = false;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -31,29 +32,36 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
+        this.isBattleMusicPlaying = false;
+        this.level.enemies.forEach(enemy => {
+            if (enemy instanceof Endboss) {
+                enemy.world = this;
+            }
+        });
     }
+
 
     setWorld() {
         this.character.world = this;
     }
 
-  
 
     run() {
-        
+        this.background_music.play();
         setInterval(() => {
-            
             this.checkCollisions();
-
             this.checkThrowObjects();
-            this.background_music.play();
-            
         }, 80);
     }
 
-   
 
-
+    switchToBattleMusic() {
+        if (!this.isBattleMusicPlaying) {
+            this.background_music.pause();
+            this.battle_music.play();
+            this.isBattleMusicPlaying = true;
+        }
+    }
 
 
     checkThrowObjects() {
@@ -62,11 +70,7 @@ class World {
             this.throwableObjects.push(bottle);
             this.character.decreaseBottleDepot();
             this.bottleStatusBar.setStock(this.character.bottleDepot);
-
-            // Set canPressD to false
             this.canPressD = false;
-
-            // After 0.8 seconds, set canPressD back to true
             setTimeout(() => {
                 this.canPressD = true;
             }, 500);
@@ -74,9 +78,7 @@ class World {
     }
 
 
-
     checkCollisions() {
-        // Kollisionsprüfung für Trampling und Kollision mit Charakter
         this.level.enemies.forEach((enemy, index) => {
             if (this.character.isTrampling(enemy)) {
                 if (enemy instanceof Endboss) {
@@ -97,7 +99,6 @@ class World {
             }
         });
 
-        // Kollisionsprüfung für Münzen
         this.level.coins.forEach((coin, index) => {
             if (this.character.isColliding(coin)) {
                 console.log('Pepe picked up a', coin);
@@ -109,7 +110,6 @@ class World {
             }
         });
 
-        // Kollisionsprüfung für Flaschen
         this.level.bottles.forEach((bottle, index) => {
             if (this.character.isColliding(bottle)) {
                 this.character.pickBottle();
@@ -133,6 +133,7 @@ class World {
                             enemy.hit(2);
                             this.endbossStatusBar.setPercentage(enemy.energy);
                             console.log('Energy of Endboss:', enemy.energy);
+                            this.switchToBattleMusic();
                         }
                     } else {
                         console.log('Bottle is colliding with', enemy);
@@ -140,30 +141,24 @@ class World {
                         enemy.isKilled(enemyIndex);
                         setTimeout(() => {
                             this.deleteEnemy(enemyIndex, 1);
+                            winningGame();
                         }, 800);
                     }
                 }
             });
         });
-
     }
-
-
 
 
     draw() {
         //alles wird gecleart, bevor es neu gezeichnet wird
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.bottles);
-
         this.ctx.translate(-this.camera_x, 0);
 
         // ----------------Space for fixed objects -------------------//
-
-
 
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.clouds);
@@ -176,18 +171,14 @@ class World {
 
         this.addToMap(this.liveStatusBar);
         this.addToMap(this.endbossStatusBar);
-        // this.addToMap(this.coinStatusBar);
         this.addToMap(this.bottleStatusBar);
 
-
-
-        // draw() wird immer wieder aufgerufen
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
         });
-
     }
+
 
     addObjectsToMap(objects) {
         objects.forEach(o => {
@@ -195,19 +186,19 @@ class World {
         });
     }
 
+
     addToMap(mo) {
         if (mo.otherDirection) {
             this.flipImage(mo);
         }
-
         mo.draw(this.ctx);
         // mo.drawFrame(this.ctx);
         // mo.drawOffset(this.ctx);
-
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
     }
+
 
     flipImage(mo) {
         this.ctx.save();
@@ -216,14 +207,43 @@ class World {
         mo.x = mo.x * -1;
     }
 
+
     flipImageBack(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();
     }
+
 
     deleteEnemy(index) {
         level1.enemies.splice(index, 1);
     }
 
 
+    toggleAudio() {
+        this.isMuted = !this.isMuted;
+
+        this.background_music.muted = this.isMuted;
+        this.battle_music.muted = this.isMuted;
+        this.win_music.muted = this.isMuted;
+        this.lose_music.muted = this.isMuted;
+
+        if (this.isMuted) {
+            console.log('Background music is muted');
+        } else {
+            console.log('Background music is unmuted');
+        }
+    }
+
+
+    winningGame() {
+        clearAllIntervals();
+        this.win_music.play();
+        document.getElementById('canvas').classList.add("d-none");
+        document.getElementById('canvas_navbar_header').classList.add("d-none");
+        document.getElementById('canvas_navbar_footer').classList.add("d-none");
+        document.getElementById('start_screen').classList.remove("z-index1");
+        document.getElementById('won').classList.remove("d-none");
+        document.getElementById('start_screen').classList.remove("start_screen");
+        document.getElementById('start_screen').classList.add("end_screen_won");
+    }
 }

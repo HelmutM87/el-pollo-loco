@@ -1,4 +1,5 @@
 class BottleStatusBar extends DrawableObject {
+    stock = 10;
     IMAGES = [
         'img_pollo_locco/img/7_statusbars/1_statusbar/3_statusbar_bottle/green/0.png',
         'img_pollo_locco/img/7_statusbars/1_statusbar/3_statusbar_bottle/green/20.png',
@@ -7,9 +8,7 @@ class BottleStatusBar extends DrawableObject {
         'img_pollo_locco/img/7_statusbars/1_statusbar/3_statusbar_bottle/green/80.png',
         'img_pollo_locco/img/7_statusbars/1_statusbar/3_statusbar_bottle/green/100.png',
     ];
-
-    stock = 10;
-
+    
     constructor() {
         super();
         this.loadImages(this.IMAGES);

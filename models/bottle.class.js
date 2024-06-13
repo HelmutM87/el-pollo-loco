@@ -26,8 +26,6 @@ class Bottle extends DrawableObject {
         'img_pollo_locco/img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ];
 
-   
-
     constructor() {
         super().loadImage('img_pollo_locco/img/6_salsa_bottle/1_salsa_bottle_on_ground.png');
         this.loadImages(this.IMAGES_ON_GROUND);
@@ -35,7 +33,5 @@ class Bottle extends DrawableObject {
         this.y = 365;
         this.width = 70;
         this.height = 75;
-        
     }
-
 }
