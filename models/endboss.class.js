@@ -76,7 +76,6 @@ class Endboss extends MovableObject {
         this.checkLiveInterval = setInterval(() => {
             if (this.energy < 1) {
                 this.isKilled();
-                console.log('Endboss is dead');
             }
         }, 80);
         this.intervalIds.push(this.checkLiveInterval);
@@ -87,9 +86,9 @@ class Endboss extends MovableObject {
         this.intervalIds.push(setInterval(() => {
             this.moveLeft();
             if (this.speed === 0) {
-                this.playAnimation(this.IMAGES_ALERT, 200); // Alert-Animation mit 200 Millisekunden
+                this.playAnimation(this.IMAGES_ALERT, 200); 
             } else {
-                this.playAnimation(this.IMAGES_WALKING, 200); // Walking-Animation mit 200 Millisekunden
+                this.playAnimation(this.IMAGES_WALKING, 200); 
             }
         }, 200));
         this.randomizeSpeed();
@@ -98,12 +97,12 @@ class Endboss extends MovableObject {
 
     randomizeSpeed() {
         this.intervalIds.push(setTimeout(() => {
-            this.speed = 0; // Endboss anhalten
+            this.speed = 0; 
             this.intervalIds.push(setTimeout(() => {
-                this.speed = 0.15 + Math.random() * 5; // Zufällige Geschwindigkeit setzen
-                this.randomizeSpeed(); // Neue Verzögerung und Geschwindigkeit zufällig setzen
-            }, Math.random() * 5000)); // Zufällige Verzögerung zwischen 0 und 5000 ms
-        }, Math.random() * 5000)); // Zufällige Verzögerung zwischen 0 und 5000 ms
+                this.speed = 0.15 + Math.random() * 5; 
+                this.randomizeSpeed(); 
+            }, Math.random() * 5000)); 
+        }, Math.random() * 5000)); 
     }
 
 
@@ -111,15 +110,12 @@ class Endboss extends MovableObject {
         this.energy -= damage;
         if (this.energy < 0) {
             this.energy = 0;
-        } else {
+        } else 
             this.lastHit = new Date().getTime();
-        }
         if (this.energy < 1) {
             this.isKilled();
-            // this.deleteEnemy();
-        } else {
+        } else 
             this.playHurtAnimation();
-        }
     }
 
 

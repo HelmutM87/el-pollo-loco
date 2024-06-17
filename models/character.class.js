@@ -260,5 +260,18 @@ class Character extends MovableObject {
         this.playAnimation(this.IMAGES_HURT);
         this.hit_sound.play();
     }
+
+    applyGravity() {
+        setInterval(() => {
+            if (this.isAboveGround() || this.speedY > 0) {
+                this.y -= this.speedY;
+                this.speedY -= this.acceleration;
+                if (this.y > 155) {
+                    this.y = 155;
+                    this.speedY = 0;
+                }
+            }
+        }, 1000 / 25);
+    }
 }
 

@@ -17,7 +17,6 @@ function init() {
         document.getElementById('mobile_buttons').classList.remove("d-none");
         world = new World(canvas, keyboard);
         bindTouchEvents();
-        console.log('My Character is', world.character);
     }, 1500);
 }
 

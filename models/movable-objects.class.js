@@ -23,13 +23,14 @@ class MovableObject extends DrawableObject {
         }, 1000 / 25);
     }
 
+    
+
 
     isAboveGround() {
         if (this instanceof ThrowableObject) {
             return true;
-        } else {
+        } else
             return this.y < 155;
-        }
     }
 
 
@@ -75,13 +76,19 @@ class MovableObject extends DrawableObject {
         this.jumping_sound.play();
     }
 
+    // jump() {
+    //     if (this.y <= 155) { // Check to ensure jump does not exceed the limit
+    //         this.speedY = 30;
+    //         this.jumping_sound.play();
+    //     }
+    // }
+
 
     decreaseBottleDepot() {
         this.bottleDepot -= 1;
         if (this.bottleDepot < 1) {
             this.bottleDepot = 0;
         }
-        console.log('Pepe has now', this.bottleDepot, 'bottles');
     }
 
 

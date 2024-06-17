@@ -40,7 +40,6 @@ class DrawableObject {
 
     isColliding(mo) {
         if (!mo) {
-            console.error('Colliding object is undefined');
             return false;
         }
 
@@ -98,6 +97,5 @@ class DrawableObject {
 
     pickBottle() {
         this.bottleDepot += 1;
-        console.log('Pepe picked a bottle');
     }
 }

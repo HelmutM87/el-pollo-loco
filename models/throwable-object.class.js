@@ -44,9 +44,8 @@ class ThrowableObject extends MovableObject {
         this.throwInterval = setInterval(() => {
             if (this.direction) {
                 this.x -= 4;
-            } else {
+            } else 
                 this.x += 6;
-            }
             if (this.y > 360) {
                 this.splash();
                 this.splash_sound.play();
