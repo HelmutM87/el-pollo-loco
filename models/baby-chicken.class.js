@@ -40,7 +40,9 @@ class BabyChicken extends MovableObject {
     playBabyChicken() {
         if (this.isKilledCondition()) {
             this.playAnimation(this.IMAGE_DEATH);
-            this.enemy_dying_sound.play();
+            if (!isMuted) {
+                this.enemy_dying_sound.play();
+            }
         } else {
             this.playAnimation(this.IMAGES_WALKING);
         }
@@ -55,7 +57,9 @@ class BabyChicken extends MovableObject {
     isKilled() {
         this.stopAllIntervals();
         this.playAnimation(this.IMAGE_DEATH);
-        this.enemy_dying_sound.play();
+        if (!isMuted) {
+            this.enemy_dying_sound.play();
+        }
     }
 
     

@@ -23,7 +23,7 @@ class MovableObject extends DrawableObject {
         }, 1000 / 25);
     }
 
-    
+
 
 
     isAboveGround() {
@@ -73,7 +73,9 @@ class MovableObject extends DrawableObject {
 
     jump() {
         this.speedY = 30;
-        this.jumping_sound.play();
+        if (!isMuted) {
+            this.jumping_sound.play();
+        }
     }
 
     // jump() {

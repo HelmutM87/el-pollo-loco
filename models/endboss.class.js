@@ -86,9 +86,9 @@ class Endboss extends MovableObject {
         this.intervalIds.push(setInterval(() => {
             this.moveLeft();
             if (this.speed === 0) {
-                this.playAnimation(this.IMAGES_ALERT, 200); 
+                this.playAnimation(this.IMAGES_ALERT, 200);
             } else {
-                this.playAnimation(this.IMAGES_WALKING, 200); 
+                this.playAnimation(this.IMAGES_WALKING, 200);
             }
         }, 200));
         this.randomizeSpeed();
@@ -97,12 +97,12 @@ class Endboss extends MovableObject {
 
     randomizeSpeed() {
         this.intervalIds.push(setTimeout(() => {
-            this.speed = 0; 
+            this.speed = 0;
             this.intervalIds.push(setTimeout(() => {
-                this.speed = 0.15 + Math.random() * 5; 
-                this.randomizeSpeed(); 
-            }, Math.random() * 5000)); 
-        }, Math.random() * 5000)); 
+                this.speed = 0.15 + Math.random() * 5;
+                this.randomizeSpeed();
+            }, Math.random() * 5000));
+        }, Math.random() * 5000));
     }
 
 
@@ -110,11 +110,11 @@ class Endboss extends MovableObject {
         this.energy -= damage;
         if (this.energy < 0) {
             this.energy = 0;
-        } else 
+        } else
             this.lastHit = new Date().getTime();
         if (this.energy < 1) {
             this.isKilled();
-        } else 
+        } else
             this.playHurtAnimation();
     }
 
@@ -129,22 +129,25 @@ class Endboss extends MovableObject {
             clearInterval(moveLeftInterval);
             const attackDuration = Math.min(1000, this.IMAGES_ATTACK.length * 200);
             this.playAnimation(this.IMAGES_ATTACK, attackDuration);
-            this.attack_sound.play();
+            if (!isMuted) {
+                this.attack_sound.play();
+            }
         }, 500);
     }
 
     isKilled() {
         this.attack_sound.pause();
         this.playAnimation(this.IMAGE_DEATH, 800);
-        this.enemy_dying_sound.play();
-
+        if (!isMuted) {
+            this.enemy_dying_sound.play();
+        }
         setTimeout(() => {
             this.stopAllIntervals();
             this.removeFromEnemiesArray();
             this.world.battle_music.pause();
             this.world.isBattleMusicPlaying = false;
             this.world.winningGame();
-        }, 800); 
+        }, 800);
     }
 
 

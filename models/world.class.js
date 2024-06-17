@@ -47,7 +47,9 @@ class World {
 
 
     run() {
-        this.background_music.play();
+        if (!isMuted) {
+            this.background_music.play();
+        }
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowObjects();
@@ -58,7 +60,9 @@ class World {
     switchToBattleMusic() {
         if (!this.isBattleMusicPlaying) {
             this.background_music.pause();
-            this.battle_music.play();
+            if (!isMuted) {
+                this.battle_music.play();
+            }
             this.isBattleMusicPlaying = true;
         }
     }
@@ -174,7 +178,9 @@ class World {
             if (this.character.isColliding(coin)) {
                 console.log('Pepe picked up a', coin);
                 this.character.pickCoin(coin);
-                this.coin_sound.play();
+                if (!isMuted) {
+                    this.coin_sound.play();
+                }
                 level1.coins.splice(index, 1);
                 this.liveStatusBar.setPercentage(this.character.energy);
                 console.log('Energy:', this.character.energy);
@@ -184,7 +190,9 @@ class World {
         this.level.bottles.forEach((bottle, index) => {
             if (this.character.isColliding(bottle)) {
                 this.character.pickBottle();
-                this.bottle_sound.play();
+                if (!isMuted) {
+                    this.bottle_sound.play();
+                }
                 level1.bottles.splice(index, 1);
                 this.bottleStatusBar.setStock(this.character.bottleDepot);
                 console.log('Pepe has now', this.character.bottleDepot, 'bottles');
@@ -199,7 +207,7 @@ class World {
                         console.log('Bottle is colliding with the Endboss');
                         if (enemy.energy < 1) {
                             console.log('Endboss energy is less than 1. Removing Endboss.');
-                            
+
                             this.deleteEndboss();
                             this.winningGame(); // Endgame when the Endboss is defeated
                         } else {
@@ -328,17 +336,16 @@ class World {
     }
 
     toggleAudio() {
-        this.isMuted = !this.isMuted;
-
-        this.background_music.muted = this.isMuted;
-        this.battle_music.muted = this.isMuted;
-        this.win_music.muted = this.isMuted;
-        this.lose_music.muted = this.isMuted;
-
-        if (this.isMuted) {
-            console.log('Background music is muted');
+        isMuted = !isMuted;
+        this.background_music.muted = isMuted;
+        this.battle_music.muted = isMuted;
+        this.win_music.muted = isMuted;
+        this.lose_music.muted = isMuted;
+        console.log('Audio muted:', isMuted);
+        if (isMuted) {
+            my_mute_button.src = '/images/mute.png';
         } else {
-            console.log('Background music is unmuted');
+            my_mute_button.src = '/images/audio.png';
         }
     }
 
@@ -346,7 +353,9 @@ class World {
         clearAllIntervals();
         this.battle_music.pause();
         this.background_music.pause();
-        this.win_music.play();
+        if (!isMuted) {
+            this.win_music.play();
+        }
         document.getElementById('canvas').classList.add("d-none");
         document.getElementById('canvas_navbar_header').classList.add("d-none");
         document.getElementById('canvas_navbar_footer').classList.add("d-none");
@@ -355,5 +364,4 @@ class World {
         document.getElementById('start_screen').classList.remove("start_screen");
         document.getElementById('start_screen').classList.add("end_screen_won");
     }
-
 }

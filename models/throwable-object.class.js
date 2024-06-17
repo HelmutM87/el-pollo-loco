@@ -48,7 +48,10 @@ class ThrowableObject extends MovableObject {
                 this.x += 6;
             if (this.y > 360) {
                 this.splash();
-                this.splash_sound.play();
+                if(!isMuted) {
+                    this.splash_sound.play();
+                }
+                
             }
         }, 25);
     }

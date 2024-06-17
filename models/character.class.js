@@ -134,7 +134,9 @@ class Character extends MovableObject {
     moveRight() {
         super.moveRight();
         this.otherDirection = false;
-        this.walking_sound.play();
+        if (!isMuted) {
+            this.walking_sound.play();
+        }
         this.isWalking = true;
     }
 
@@ -146,7 +148,9 @@ class Character extends MovableObject {
 
     moveLeft() {
         super.moveLeft();
-        this.walking_sound.play();
+        if (!isMuted) {
+            this.walking_sound.play();
+        }
         this.otherDirection = true;
         this.isWalking = true;
     }
@@ -180,7 +184,7 @@ class Character extends MovableObject {
             const currentTime = new Date().getTime();
             const elapsedTime = currentTime - this.lastKeyPressTime;
             if (elapsedTime >= 8000 && !this.isDead() && this.canSleep) { // Überprüfen, ob der Charakter tot ist
-                this.sleepFunctions();
+                this.playSleepFunctions();
             } else {
                 this.isSleepingAnimationPlaying = false;
                 this.sleeping_sound.pause();
@@ -192,10 +196,12 @@ class Character extends MovableObject {
     }
 
 
-    sleepFunctions() {
+    playSleepFunctions() {
         this.isSleepingAnimationPlaying = true;
         this.playAnimation(this.IMAGES_SLEEPING);
-        this.sleeping_sound.play();
+        if (!isMuted) {
+            this.sleeping_sound.play();
+        }
     }
 
 
@@ -244,12 +250,16 @@ class Character extends MovableObject {
 
 
     stopLosingAnimations() {
-        this.dying_sound.play();
+        if (!isMuted) {
+            this.dying_sound.play();
+        }
         this.deathSoundPlayed = true;
         this.dying_sound.addEventListener('ended', () => {
             this.world.background_music.pause();
             losingGame();
-            this.game_over_sound.play();
+            if (!isMuted) {
+                this.game_over_sound.play();
+            }
         });
     }
 
@@ -258,7 +268,9 @@ class Character extends MovableObject {
         this.stopSleeping();
         this.sleeping_sound.pause();
         this.playAnimation(this.IMAGES_HURT);
-        this.hit_sound.play();
+        if (!isMuted) {
+            this.hit_sound.play();
+        }
     }
 
     applyGravity() {
@@ -273,5 +285,14 @@ class Character extends MovableObject {
             }
         }, 1000 / 25);
     }
+
+    // jump() {
+    //     if (this.y <= 155) {
+    //         this.speedY = 30;
+    //         if (!isMuted) {
+    //             this.jumping_sound.play();
+    //         }
+    //     }
+    // }
 }
 

@@ -56,7 +56,9 @@ class Chicken extends MovableObject {
     isKilled() {
         this.stopAllIntervals();
         this.playAnimation(this.IMAGE_DEATH);
-        this.enemy_dying_sound.play();
+        if (!isMuted) {
+            this.enemy_dying_sound.play();
+        }
     }
 
     

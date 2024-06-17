@@ -1,6 +1,7 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let isMuted = false;
 window.my_mute = false;
 window.addEventListener('orientationchange', checkOrientation);
 window.addEventListener('load', checkOrientation);
@@ -192,17 +193,4 @@ function openInfo() {
 
 function closeInfo() {
     document.getElementById('info').classList.add("d-none");
-}
-
-
-function toggleAudio() {
-    if (world) {
-        world.toggleAudio();
-    }
-    let muteButton = document.getElementById('my_mute_button');
-    if (world.isMuted) {
-        muteButton.src = '/images/backgroundmusic_mute.png';
-    } else {
-        muteButton.src = '/images/audio.png';
-    }
 }
