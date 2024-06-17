@@ -183,7 +183,7 @@ class Character extends MovableObject {
         this.idleTimer = setInterval(() => {
             const currentTime = new Date().getTime();
             const elapsedTime = currentTime - this.lastKeyPressTime;
-            if (elapsedTime >= 8000 && !this.isDead() && this.canSleep) { // Überprüfen, ob der Charakter tot ist
+            if (elapsedTime >= 8000 && !this.isDead() && this.canSleep) {
                 this.playSleepFunctions();
             } else {
                 this.isSleepingAnimationPlaying = false;
@@ -285,14 +285,5 @@ class Character extends MovableObject {
             }
         }, 1000 / 25);
     }
-
-    // jump() {
-    //     if (this.y <= 155) {
-    //         this.speedY = 30;
-    //         if (!isMuted) {
-    //             this.jumping_sound.play();
-    //         }
-    //     }
-    // }
 }
 

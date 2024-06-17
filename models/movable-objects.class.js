@@ -78,13 +78,6 @@ class MovableObject extends DrawableObject {
         }
     }
 
-    // jump() {
-    //     if (this.y <= 155) { // Check to ensure jump does not exceed the limit
-    //         this.speedY = 30;
-    //         this.jumping_sound.play();
-    //     }
-    // }
-
 
     decreaseBottleDepot() {
         this.bottleDepot -= 1;

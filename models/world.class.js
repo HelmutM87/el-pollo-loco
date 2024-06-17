@@ -157,9 +157,9 @@ class World {
         this.level.enemies.forEach((enemy, index) => {
             if (this.character.isTrampling(enemy)) {
                 if (enemy instanceof Endboss) {
-                    console.log('Pepe is trampling on the Endboss, but nothing happens');
+                    // console.log('Pepe is trampling on the Endboss, but nothing happens');
                 } else {
-                    console.log('Pepe is trampling on', enemy);
+                    // console.log('Pepe is trampling on', enemy);
                     this.character.jump();
                     enemy.isKilled(index);
                     setTimeout(() => {
@@ -167,23 +167,23 @@ class World {
                     }, 800);
                 }
             } else if (this.character.isColliding(enemy)) {
-                console.log('Pepe is colliding with', enemy);
+                // console.log('Pepe is colliding with', enemy);
                 this.character.hit();
                 this.liveStatusBar.setPercentage(this.character.energy);
-                console.log('Energy:', this.character.energy);
+                // console.log('Energy:', this.character.energy);
             }
         });
 
         this.level.coins.forEach((coin, index) => {
             if (this.character.isColliding(coin)) {
-                console.log('Pepe picked up a', coin);
+                // console.log('Pepe picked up a', coin);
                 this.character.pickCoin(coin);
                 if (!isMuted) {
                     this.coin_sound.play();
                 }
                 level1.coins.splice(index, 1);
                 this.liveStatusBar.setPercentage(this.character.energy);
-                console.log('Energy:', this.character.energy);
+                // console.log('Energy:', this.character.energy);
             }
         });
 
@@ -195,7 +195,7 @@ class World {
                 }
                 level1.bottles.splice(index, 1);
                 this.bottleStatusBar.setStock(this.character.bottleDepot);
-                console.log('Pepe has now', this.character.bottleDepot, 'bottles');
+                // console.log('Pepe has now', this.character.bottleDepot, 'bottles');
             }
         });
 
@@ -204,20 +204,20 @@ class World {
                 if (bottle.isColliding(enemy)) {
                     bottle.splash();
                     if (enemy instanceof Endboss) {
-                        console.log('Bottle is colliding with the Endboss');
+                        // console.log('Bottle is colliding with the Endboss');
                         if (enemy.energy < 1) {
-                            console.log('Endboss energy is less than 1. Removing Endboss.');
+                            // console.log('Endboss energy is less than 1. Removing Endboss.');
 
                             this.deleteEndboss();
                             this.winningGame(); // Endgame when the Endboss is defeated
                         } else {
                             enemy.hit(2);
                             this.endbossStatusBar.setPercentage(enemy.energy);
-                            console.log('Energy of Endboss:', enemy.energy);
+                            // console.log('Energy of Endboss:', enemy.energy);
                             this.switchToBattleMusic();
                         }
                     } else {
-                        console.log('Bottle is colliding with', enemy);
+                        // console.log('Bottle is colliding with', enemy);
                         enemy.isKilled(enemyIndex);
                         setTimeout(() => {
                             this.deleteEnemy(enemyIndex);
@@ -341,7 +341,6 @@ class World {
         this.battle_music.muted = isMuted;
         this.win_music.muted = isMuted;
         this.lose_music.muted = isMuted;
-        console.log('Audio muted:', isMuted);
         if (isMuted) {
             my_mute_button.src = '/images/mute.png';
         } else {
