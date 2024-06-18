@@ -1,22 +1,27 @@
+/**
+ * Represents the Endboss in the game, inheriting from MovableObject.
+ * Handles its animations, behaviors, and interactions within the game.
+ */
 class Endboss extends MovableObject {
-    height = 400;
+    height = 400; 
     width = 350;
     y = 55;
     energy = 100;
     lastHit = 0;
-    intervalIds = [];
-    checkLiveInterval;
+    intervalIds = []; 
+    checkLiveInterval; 
 
     offset = {
         top: 65,
         left: 30,
-        right: 30,
+        right: 30, 
         bottom: 0
     };
 
-    attack_sound = new Audio('audio/hen-attacs.mp3');
-    gack_sound = new Audio('audio/hen-gacks.mp3');
+    attack_sound = new Audio('audio/hen-attacs.mp3'); 
+    gack_sound = new Audio('audio/hen-gacks.mp3'); 
     enemy_dying_sound = new Audio('audio/chicken-dying.mp3');
+
     IMAGES_WALKING = [
         'img_pollo_locco/img/4_enemie_boss_chicken/1_walk/G1.png',
         'img_pollo_locco/img/4_enemie_boss_chicken/1_walk/G2.png',
@@ -33,7 +38,7 @@ class Endboss extends MovableObject {
         'img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G10.png',
         'img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G11.png',
         'img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G12.png'
-    ];
+    ]; 
 
     IMAGES_ATTACK = [
         'img_pollo_locco/img/4_enemie_boss_chicken/3_attack/G13.png',
@@ -56,8 +61,12 @@ class Endboss extends MovableObject {
         'img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G24.png',
         'img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G25.png',
         'img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G26.png'
-    ];
+    ]; 
 
+    /**
+     * Constructs an instance of Endboss.
+     * @param {Object} world - The game world where the Endboss exists.
+     */
     constructor(world) {
         super();
         this.world = world;
@@ -71,7 +80,10 @@ class Endboss extends MovableObject {
         this.checkLive();
     }
 
-
+    /**
+     * Periodically checks if the Endboss is alive.
+     * If energy is less than 1, triggers the isKilled method.
+     */
     checkLive() {
         this.checkLiveInterval = setInterval(() => {
             if (this.energy < 1) {
@@ -81,7 +93,10 @@ class Endboss extends MovableObject {
         this.intervalIds.push(this.checkLiveInterval);
     }
 
-
+    /**
+     * Animates the Endboss by moving it left and playing the appropriate animations.
+     * Also randomizes its speed.
+     */
     animate() {
         this.intervalIds.push(setInterval(() => {
             this.moveLeft();
@@ -94,7 +109,10 @@ class Endboss extends MovableObject {
         this.randomizeSpeed();
     }
 
-
+    /**
+     * Randomizes the speed of the Endboss.
+     * Sets speed to 0 for a random duration, then sets it to a random speed.
+     */
     randomizeSpeed() {
         this.intervalIds.push(setTimeout(() => {
             this.speed = 0;
@@ -105,20 +123,29 @@ class Endboss extends MovableObject {
         }, Math.random() * 5000));
     }
 
-
+    /**
+     * Handles the Endboss being hit.
+     * Decreases its energy and plays the hurt animation.
+     * If energy drops below 1, triggers the isKilled method.
+     * @param {number} damage - The amount of damage dealt to the Endboss.
+     */
     hit(damage) {
         this.energy -= damage;
         if (this.energy < 0) {
             this.energy = 0;
-        } else
+        } else {
             this.lastHit = new Date().getTime();
+        }
         if (this.energy < 1) {
             this.isKilled();
-        } else
+        } else {
             this.playHurtAnimation();
+        }
     }
 
-
+    /**
+     * Plays the hurt animation and initiates a temporary attack sequence.
+     */
     playHurtAnimation() {
         this.playAnimation(this.IMAGES_HURT);
         let moveLeftInterval = setInterval(() => {
@@ -135,6 +162,11 @@ class Endboss extends MovableObject {
         }, 500);
     }
 
+    /**
+     * Handles the Endboss being killed.
+     * Plays the death animation, stops all intervals, and removes the Endboss from the enemies array.
+     * Triggers the winningGame method in the game world.
+     */
     isKilled() {
         this.attack_sound.pause();
         this.playAnimation(this.IMAGE_DEATH, 800);
@@ -150,7 +182,9 @@ class Endboss extends MovableObject {
         }, 800);
     }
 
-
+    /**
+     * Removes the Endboss from the enemies array in the current level.
+     */
     removeFromEnemiesArray() {
         const index = level1.enemies.indexOf(this);
         if (index > -1) {
@@ -158,19 +192,25 @@ class Endboss extends MovableObject {
         }
     }
 
-
+    /**
+     * Deletes the Endboss by stopping all intervals and removing it from the enemies array.
+     */
     deleteEnemy() {
         this.stopAllIntervals();
         this.removeFromEnemiesArray();
     }
 
-
+    /**
+     * Clears all intervals associated with the Endboss.
+     */
     clearAllIntervals() {
         this.intervalIds.forEach(intervalId => clearInterval(intervalId));
         this.intervalIds = [];
     }
 
-
+    /**
+     * Stops all intervals and clears the checkLive interval.
+     */
     stopAllIntervals() {
         clearInterval(this.checkLiveInterval);
         this.intervalIds.forEach(intervalId => clearInterval(intervalId));

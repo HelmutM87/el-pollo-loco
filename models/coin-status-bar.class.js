@@ -1,5 +1,7 @@
+/**
+ * Represents a status bar for coins in the game, inheriting from DrawableObject.
+ */
 class CoinStatusBar extends DrawableObject {
-
     IMAGES = [
         'img_pollo_locco/img/7_statusbars/1_statusbar/1_statusbar_coin/green/0.png',
         'img_pollo_locco/img/7_statusbars/1_statusbar/1_statusbar_coin/green/20.png',
@@ -7,30 +9,41 @@ class CoinStatusBar extends DrawableObject {
         'img_pollo_locco/img/7_statusbars/1_statusbar/1_statusbar_coin/green/60.png',
         'img_pollo_locco/img/7_statusbars/1_statusbar/1_statusbar_coin/green/80.png',
         'img_pollo_locco/img/7_statusbars/1_statusbar/1_statusbar_coin/green/100.png',
-    ];
+    ]; // Array of image paths representing different levels of the status bar.
 
-    percentage = 100;
+    percentage = 100; 
 
+    /**
+     * Constructor for the CoinStatusBar class.
+     * Initializes the status bar with images, position, and dimensions.
+     */
     constructor() {
-        super();
+        super(); 
         this.loadImages(this.IMAGES);
-        this.x = 20;
-        this.y = 60;
-        this.width = 150;
+        this.x = 20; 
+        this.y = 60; 
+        this.width = 150; 
         this.height = 40;
-        this.setPercentage(0);
+        this.setPercentage(0); 
     }
 
-
+    /**
+     * Sets the percentage value of the status bar.
+     * Updates the displayed image based on the current percentage.
+     * @param {number} percentage - The percentage value to set.
+     */
     setPercentage(percentage) {
-        this.percentage = percentage;
-        let path = this.IMAGES[this.resolveImageIndex()];
-        this.img = this.imageCache[path];
+        this.percentage = percentage; 
+        let path = this.IMAGES[this.resolveImageIndex()]; 
+        this.img = this.imageCache[path]; 
     }
 
-    
+    /**
+     * Determines the index of the image in the IMAGES array based on the current percentage.
+     * @returns {number} - The index of the image in the IMAGES array.
+     */
     resolveImageIndex() {
-        if (this.percentage == 100) {
+        if (this.percentage === 100) {
             return 5;
         } else if (this.percentage > 80) {
             return 4;

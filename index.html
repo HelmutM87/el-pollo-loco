@@ -45,14 +45,14 @@
 
     <div id="won" class="won_bg, d-none">
       <h1>YOU WON!</h1>
-      <div onclick="menu()" id="replay_button" class="replay_button">
+      <div onclick="resetGame()" id="replay_button" class="replay_button">
         MENU
       </div>
     </div>
 
     <div id="lost" class="lost_bg, d-none">
       <div id="game_over_overlay" class="game_over_overlay">
-        <div onclick="menu()" id="replay_button" class="replay_button">
+        <div onclick="resetGame()" id="replay_button" class="replay_button">
           MENU
         </div>
       </div>
@@ -135,15 +135,17 @@
       </div>
     </div>
 
-    <div id="orientation_warning" class="orientation_warning">
+    <div id="orientationWarning" class="orientation_warning">
       Please turn your device in landscape.
       <img src="/images/turn_device.png" alt="">
     </div>
   </div>
-  
-  
- 
-  Icons by <a target="_blank" href="https://icons8.com">Icons8</a>
+
+  <div class="footer">
+    <div><a href="impressum.html">Impressum</a></div>
+    <div> Icons by <a target="_blank" href="https://icons8.com">Icons8</a></div>
+  </div>
+
 </body>
 
 </html>

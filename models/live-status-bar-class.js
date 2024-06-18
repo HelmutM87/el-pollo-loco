@@ -1,3 +1,7 @@
+/**
+ * Represents the live status bar in the game, displaying the player's health status.
+ * Inherits from DrawableObject.
+ */
 class LiveStatusBar extends DrawableObject {
     IMAGES = [
         'img_pollo_locco/img/7_statusbars/1_statusbar/2_statusbar_health/green/0.png',
@@ -8,8 +12,12 @@ class LiveStatusBar extends DrawableObject {
         'img_pollo_locco/img/7_statusbars/1_statusbar/2_statusbar_health/green/100.png',
     ];
 
-    percentage = 100;
+    percentage = 100; 
 
+    /**
+     * Constructs a new LiveStatusBar instance.
+     * Initializes the position, dimensions, and loads the images for the health bar.
+     */
     constructor() {
         super();
         this.loadImages(this.IMAGES);
@@ -20,14 +28,20 @@ class LiveStatusBar extends DrawableObject {
         this.setPercentage(100);
     }
 
-
+    /**
+     * Sets the percentage of the health bar and updates the displayed image accordingly.
+     * @param {number} percentage - The new health percentage to display.
+     */
     setPercentage(percentage) {
         this.percentage = percentage;
         let path = this.IMAGES[this.resolveImageIndex()];
         this.img = this.imageCache[path];
     }
 
-
+    /**
+     * Resolves the appropriate image index based on the current health percentage.
+     * @returns {number} The index of the image to be displayed.
+     */
     resolveImageIndex() {
         if (this.percentage >= 100) {
             return 5;

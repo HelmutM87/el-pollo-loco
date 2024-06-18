@@ -1,3 +1,6 @@
+/**
+ * Represents the game world, managing the character, enemies, objects, and interactions.
+ */
 class World {
     character = new Character();
     level = level1;
@@ -25,6 +28,11 @@ class World {
     isBattleMusicPlaying = false;
     isMuted = false;
 
+    /**
+     * Constructs a new World instance.
+     * @param {HTMLCanvasElement} canvas - The canvas element where the game is rendered.
+     * @param {Keyboard} keyboard - The keyboard input handler.
+     */
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -40,12 +48,16 @@ class World {
         });
     }
 
-
+    /**
+     * Sets the world reference for the character.
+     */
     setWorld() {
         this.character.world = this;
     }
 
-
+    /**
+     * Runs the main game loop, checking for collisions and handling object throws.
+     */
     run() {
         if (!isMuted) {
             this.background_music.play();
@@ -56,7 +68,9 @@ class World {
         }, 80);
     }
 
-
+    /**
+     * Switches the background music to battle music when the Endboss is encountered.
+     */
     switchToBattleMusic() {
         if (!this.isBattleMusicPlaying) {
             this.background_music.pause();
@@ -67,7 +81,9 @@ class World {
         }
     }
 
-
+    /**
+     * Checks if the player is attempting to throw a bottle and handles the throw action.
+     */
     checkThrowObjects() {
         if (this.keyboard.D && this.canPressD && this.character.bottleDepot > 0) {
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100, this.character.otherDirection);
@@ -81,85 +97,14 @@ class World {
         }
     }
 
-
-    // checkCollisions() {
-    //     this.level.enemies.forEach((enemy, index) => {
-    //         if (this.character.isTrampling(enemy)) {
-    //             if (enemy instanceof Endboss) {
-    //                 console.log('Pepe is trampling on the Endboss, but nothing happens');
-    //             } else {
-    //                 console.log('Pepe is trampling on', enemy);
-    //                 this.character.jump();
-    //                 enemy.isKilled(index);
-    //                 setTimeout(() => {
-    //                     this.deleteEnemy(index);
-    //                 }, 800);
-    //             }
-    //         } else if (this.character.isColliding(enemy)) {
-    //             console.log('Pepe is colliding with', enemy);
-    //             this.character.hit();
-    //             this.liveStatusBar.setPercentage(this.character.energy);
-    //             console.log('Energy:', this.character.energy);
-    //         }
-    //     });
-
-    //     this.level.coins.forEach((coin, index) => {
-    //         if (this.character.isColliding(coin)) {
-    //             console.log('Pepe picked up a', coin);
-    //             this.character.pickCoin(coin);
-    //             this.coin_sound.play();
-    //             level1.coins.splice(index, 1);
-    //             this.liveStatusBar.setPercentage(this.character.energy);
-    //             console.log('Energy:', this.character.energy);
-    //         }
-    //     });
-
-    //     this.level.bottles.forEach((bottle, index) => {
-    //         if (this.character.isColliding(bottle)) {
-    //             this.character.pickBottle();
-    //             this.bottle_sound.play();
-    //             level1.bottles.splice(index, 1);
-    //             this.bottleStatusBar.setStock(this.character.bottleDepot);
-    //             console.log('Pepe has now', this.character.bottleDepot, 'bottles');
-    //         }
-    //     });
-
-    //     this.throwableObjects.forEach((bottle) => {
-    //         this.level.enemies.forEach((enemy, enemyIndex) => {
-    //             if (bottle.isColliding(enemy)) {
-    //                 if (enemy instanceof Endboss) {
-    //                     console.log('Bottle is colliding with the Endboss');
-    //                     bottle.splash();
-    //                     if (enemy.energy < 1) {
-    //                         console.log('Endboss energy is less than 1. Removing Endboss.');
-    //                         this.deleteEnemy(enemyIndex);
-    //                     } else {
-    //                         enemy.hit(2);
-    //                         this.endbossStatusBar.setPercentage(enemy.energy);
-    //                         console.log('Energy of Endboss:', enemy.energy);
-    //                         this.switchToBattleMusic();
-    //                     }
-    //                 } else {
-    //                     console.log('Bottle is colliding with', enemy);
-    //                     bottle.splash();
-    //                     enemy.isKilled(enemyIndex);
-    //                     setTimeout(() => {
-    //                         this.deleteEnemy(enemyIndex, 1);
-    //                         winningGame();
-    //                     }, 800);
-    //                 }
-    //             }
-    //         });
-    //     });
-    // }
-
+    /**
+     * Checks for collisions between the character and various objects in the game.
+     */
     checkCollisions() {
         this.level.enemies.forEach((enemy, index) => {
             if (this.character.isTrampling(enemy)) {
                 if (enemy instanceof Endboss) {
-                    // console.log('Pepe is trampling on the Endboss, but nothing happens');
                 } else {
-                    // console.log('Pepe is trampling on', enemy);
                     this.character.jump();
                     enemy.isKilled(index);
                     setTimeout(() => {
@@ -167,23 +112,19 @@ class World {
                     }, 800);
                 }
             } else if (this.character.isColliding(enemy)) {
-                // console.log('Pepe is colliding with', enemy);
                 this.character.hit();
                 this.liveStatusBar.setPercentage(this.character.energy);
-                // console.log('Energy:', this.character.energy);
             }
         });
 
         this.level.coins.forEach((coin, index) => {
             if (this.character.isColliding(coin)) {
-                // console.log('Pepe picked up a', coin);
                 this.character.pickCoin(coin);
                 if (!isMuted) {
                     this.coin_sound.play();
                 }
                 level1.coins.splice(index, 1);
                 this.liveStatusBar.setPercentage(this.character.energy);
-                // console.log('Energy:', this.character.energy);
             }
         });
 
@@ -195,7 +136,6 @@ class World {
                 }
                 level1.bottles.splice(index, 1);
                 this.bottleStatusBar.setStock(this.character.bottleDepot);
-                // console.log('Pepe has now', this.character.bottleDepot, 'bottles');
             }
         });
 
@@ -204,20 +144,15 @@ class World {
                 if (bottle.isColliding(enemy)) {
                     bottle.splash();
                     if (enemy instanceof Endboss) {
-                        // console.log('Bottle is colliding with the Endboss');
                         if (enemy.energy < 1) {
-                            // console.log('Endboss energy is less than 1. Removing Endboss.');
-
                             this.deleteEndboss();
-                            this.winningGame(); // Endgame when the Endboss is defeated
+                            this.winningGame();
                         } else {
                             enemy.hit(2);
                             this.endbossStatusBar.setPercentage(enemy.energy);
-                            // console.log('Energy of Endboss:', enemy.energy);
                             this.switchToBattleMusic();
                         }
                     } else {
-                        // console.log('Bottle is colliding with', enemy);
                         enemy.isKilled(enemyIndex);
                         setTimeout(() => {
                             this.deleteEnemy(enemyIndex);
@@ -228,20 +163,19 @@ class World {
         });
     }
 
+    /**
+     * Draws the game world, updating the canvas at each frame.
+     */
     draw() {
-        //alles wird gecleart, bevor es neu gezeichnet wird
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.bottles);
         this.ctx.translate(-this.camera_x, 0);
 
-        // ----------------Space for fixed objects -------------------//
-
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.coins);
-
         this.addObjectsToMap(this.level.enemies);
         this.addToMap(this.character);
         this.addObjectsToMap(this.throwableObjects);
@@ -257,27 +191,34 @@ class World {
         });
     }
 
-
+    /**
+     * Adds multiple objects to the game map.
+     * @param {Array} objects - The array of objects to add.
+     */
     addObjectsToMap(objects) {
         objects.forEach(o => {
             this.addToMap(o);
         });
     }
 
-
+    /**
+     * Adds a single object to the game map.
+     * @param {MovableObject} mo - The object to add.
+     */
     addToMap(mo) {
         if (mo.otherDirection) {
             this.flipImage(mo);
         }
         mo.draw(this.ctx);
-        // mo.drawFrame(this.ctx);
-        // mo.drawOffset(this.ctx);
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }
     }
 
-
+    /**
+     * Flips the image horizontally.
+     * @param {MovableObject} mo - The object to flip.
+     */
     flipImage(mo) {
         this.ctx.save();
         this.ctx.translate(mo.width, 0);
@@ -285,69 +226,53 @@ class World {
         mo.x = mo.x * -1;
     }
 
-
+    /**
+     * Flips the image back to its original orientation.
+     * @param {MovableObject} mo - The object to flip back.
+     */
     flipImageBack(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();
     }
 
-
-    // deleteEnemy(index) {
-    //     level1.enemies.splice(index, 1);
-    // }
-
-
-    // toggleAudio() {
-    //     this.isMuted = !this.isMuted;
-
-    //     this.background_music.muted = this.isMuted;
-    //     this.battle_music.muted = this.isMuted;
-    //     this.win_music.muted = this.isMuted;
-    //     this.lose_music.muted = this.isMuted;
-
-    //     if (this.isMuted) {
-    //         console.log('Background music is muted');
-    //     } else {
-    //         console.log('Background music is unmuted');
-    //     }
-    // }
-
-
-    // winningGame() {
-    //     clearAllIntervals();
-    //     this.win_music.play();
-    //     document.getElementById('canvas').classList.add("d-none");
-    //     document.getElementById('canvas_navbar_header').classList.add("d-none");
-    //     document.getElementById('canvas_navbar_footer').classList.add("d-none");
-    //     document.getElementById('start_screen').classList.remove("z-index1");
-    //     document.getElementById('won').classList.remove("d-none");
-    //     document.getElementById('start_screen').classList.remove("start_screen");
-    //     document.getElementById('start_screen').classList.add("end_screen_won");
-    // }
-
+    /**
+     * Deletes an enemy from the game.
+     * @param {number} index - The index of the enemy to delete.
+     */
     deleteEnemy(index) {
         if (!(this.level.enemies[index] instanceof Endboss)) {
             level1.enemies.splice(index, 1);
         }
     }
 
+    /**
+     * Deletes the Endboss from the game.
+     */
     deleteEndboss() {
         this.level.enemies = this.level.enemies.filter(enemy => !(enemy instanceof Endboss));
     }
 
+    /**
+     * Toggles the audio on or off.
+     */
     toggleAudio() {
         isMuted = !isMuted;
-        this.background_music.muted = isMuted;
-        this.battle_music.muted = isMuted;
-        this.win_music.muted = isMuted;
-        this.lose_music.muted = isMuted;
+        world.background_music.muted = isMuted;
+        world.battle_music.muted = isMuted;
+        world.win_music.muted = isMuted;
+        world.lose_music.muted = isMuted;
+
+        const muteButton = document.getElementById('my_mute_button');
         if (isMuted) {
-            my_mute_button.src = '/images/mute.png';
+            muteButton.src = '/images/mute.png';
         } else {
-            my_mute_button.src = '/images/audio.png';
+            muteButton.src = '/images/audio.png';
         }
     }
 
+    /**
+     * Handles the winning game scenario, stopping all intervals and playing the win music.
+     */
     winningGame() {
         clearAllIntervals();
         this.battle_music.pause();
