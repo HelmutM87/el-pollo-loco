@@ -141,7 +141,7 @@ class Character extends MovableObject {
      * @returns {boolean} True if character can move right, false otherwise.
      */
     canMoveRight() {
-        return this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x;
+        return this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x && this.world.canPressRightArrow; // Aktualisiert
     }
 
     /**

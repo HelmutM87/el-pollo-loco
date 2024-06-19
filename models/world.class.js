@@ -19,6 +19,7 @@ class World {
     coinStatusBar = new CoinStatusBar();
     throwableObjects = [];
     canPressD = true;
+    canPressRightArrow = true;
     coin_sound = new Audio('audio/coin.mp3');
     bottle_sound = new Audio('audio/glass.mp3');
     background_music = new Audio('audio/background-music.mp3');
@@ -114,6 +115,11 @@ class World {
             } else if (this.character.isColliding(enemy)) {
                 this.character.hit();
                 this.liveStatusBar.setPercentage(this.character.energy);
+                if (enemy instanceof Endboss) {
+                    this.canPressRightArrow = false;
+                }
+            } else if (enemy instanceof Endboss && !this.character.isColliding(enemy)) {
+                this.canPressRightArrow = true;
             }
         });
 
