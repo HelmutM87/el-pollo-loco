@@ -1,7 +1,7 @@
-let canvas; 
-let world; 
-let keyboard = new Keyboard(); 
-let isMuted = false; 
+let canvas;
+let world;
+let keyboard = new Keyboard();
+let isMuted = false;
 window.my_mute = false;
 window.addEventListener('load', checkOrientation);
 window.addEventListener('resize', checkOrientation);
@@ -14,15 +14,15 @@ window.addEventListener("load", function () {
  * Initializes and starts the game.
  */
 function init() {
-    initLevel(); 
+    initLevel();
     setTimeout(() => {
-        canvas = document.getElementById('canvas'); 
+        canvas = document.getElementById('canvas');
         document.getElementById('play_button').classList.add("d-none");
         document.getElementById('canvas_navbar_footer').classList.remove("d-none");
         document.getElementById('canvas').classList.remove("d-none");
         document.getElementById('my_mute_button').classList.remove("d-none");
         document.getElementById('mobile_buttons').classList.remove("d-none");
-        world = new World(canvas, keyboard); 
+        world = new World(canvas, keyboard);
         bindTouchEvents();
     }, 1500);
 }
@@ -35,7 +35,7 @@ function checkOrientation() {
     if (orientationWarning) {
         if (window.innerWidth > window.innerHeight)
             orientationWarning.style.display = 'none';
-        else 
+        else
             orientationWarning.style.display = 'block';
     }
 }
@@ -45,21 +45,21 @@ function checkOrientation() {
  */
 function bindKeyEvents() {
     window.addEventListener("keydown", (e) => {
-        if (e.keyCode == 39) keyboard.RIGHT = true; 
-        if (e.keyCode == 37) keyboard.LEFT = true; 
-        if (e.keyCode == 38) keyboard.UP = true; 
-        if (e.keyCode == 40) keyboard.DOWN = true; 
-        if (e.keyCode == 32) keyboard.SPACE = true; 
-        if (e.keyCode == 68) keyboard.D = true; 
+        if (e.keyCode == 39) keyboard.RIGHT = true;
+        if (e.keyCode == 37) keyboard.LEFT = true;
+        if (e.keyCode == 38) keyboard.UP = true;
+        if (e.keyCode == 40) keyboard.DOWN = true;
+        if (e.keyCode == 32) keyboard.SPACE = true;
+        if (e.keyCode == 68) keyboard.D = true;
         world.character.handleKeyPress();
     });
 
     window.addEventListener("keyup", (e) => {
-        if (e.keyCode == 39) keyboard.RIGHT = false; 
-        if (e.keyCode == 37) keyboard.LEFT = false; 
-        if (e.keyCode == 38) keyboard.UP = false;  
-        if (e.keyCode == 40) keyboard.DOWN = false;   
-        if (e.keyCode == 32) keyboard.SPACE = false; 
+        if (e.keyCode == 39) keyboard.RIGHT = false;
+        if (e.keyCode == 37) keyboard.LEFT = false;
+        if (e.keyCode == 38) keyboard.UP = false;
+        if (e.keyCode == 40) keyboard.DOWN = false;
+        if (e.keyCode == 32) keyboard.SPACE = false;
         if (e.keyCode == 68) keyboard.D = false;
         world.character.handleKeyUp();
     });
@@ -140,7 +140,7 @@ function losingGame() {
     document.getElementById('lost').classList.remove("d-none");
 }
 
-// Additional key event listeners for redundancy
+
 window.addEventListener("keydown", (e) => {
     if (e.keyCode == 39) keyboard.RIGHT = true;
     if (e.keyCode == 37) keyboard.LEFT = true;
@@ -198,6 +198,30 @@ function resetGame() {
 }
 
 /**
+ * Restarts the game.
+ * - Clears all intervals.
+ * - Stops background music.
+ * - Resets the world and keyboard objects.
+ * - Resets the graphic elements to their initial state.
+ * - Calls the init function to restart the game.
+ */
+function restartGame() {
+    clearAllIntervals();
+    if (world) {
+        stopBackgroundMusics();
+        if (world.character && world.character.game_over_sound) {
+            world.character.game_over_sound.pause();
+            world.character.game_over_sound.currentTime = 0;
+        }
+        world = null;
+    }
+    resetGraphicElements();
+    keyboard = new Keyboard();
+    init();
+
+}
+
+/**
  * Stops all background musics and resets their current time.
  */
 function stopBackgroundMusics() {
@@ -236,3 +260,19 @@ Audio.prototype.stop = function () {
     this.pause();
     this.currentTime = 0;
 };
+
+/**
+ * Opens the impressum screen.
+ * - Makes the impressum element visible.
+ */
+function openImpressum() {
+    document.getElementById('impressum').classList.remove("d-none");
+}
+
+/**
+ * Closes the impressum screen.
+ * - Hides the impressum element.
+ */
+function closeImpressum() {
+    document.getElementById('impressum').classList.add("d-none");
+}

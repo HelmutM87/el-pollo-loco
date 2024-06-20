@@ -98,23 +98,6 @@ canvas {
     z-index: 2;
 }
 
-/* .orientation_warning {
-    display: flex;
-    flex-direction: column;
-    row-gap: 40px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-} */
-
 #orientationWarning {
     display: none;
     position: fixed;
@@ -128,7 +111,7 @@ canvas {
     padding-top: 50%;
     font-size: 2rem;
     z-index: 1000;
-  }
+}
 
 .won_bg {
     display: flex;
@@ -162,7 +145,7 @@ canvas {
     cursor: pointer;
     z-index: 999;
     margin-bottom: 50px;
-    max-width: 75px;
+    text-align: center;
 }
 
 .end_screen_lost {
@@ -201,6 +184,7 @@ canvas {
     background-position: center;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 }
 
 .start_screen {

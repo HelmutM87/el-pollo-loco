@@ -12,12 +12,8 @@ class LiveStatusBar extends DrawableObject {
         'img_pollo_locco/img/7_statusbars/1_statusbar/2_statusbar_health/green/100.png',
     ];
 
-    percentage = 100; 
+    percentage = 100;
 
-    /**
-     * Constructs a new LiveStatusBar instance.
-     * Initializes the position, dimensions, and loads the images for the health bar.
-     */
     constructor() {
         super();
         this.loadImages(this.IMAGES);

@@ -1,7 +1,7 @@
-    /**
-    * Represents a chicken enemy in the game, inheriting from MovableObject.
-    */
-    class Chicken extends MovableObject {
+/**
+* Represents a chicken enemy in the game, inheriting from MovableObject.
+*/
+class Chicken extends MovableObject {
     height = 60;
     width = 55;
     y = 360;
@@ -25,10 +25,6 @@
 
     enemy_dying_sound = new Audio('audio/chicken-dying.mp3');
 
-    /**
-     * Constructor for the Chicken class.
-     * Initializes the chicken object with initial properties and animations.
-     */
     constructor() {
         super().loadImage('img_pollo_locco/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
         this.loadImages(this.IMAGES_WALKING);

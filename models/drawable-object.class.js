@@ -3,10 +3,10 @@
  */
 class DrawableObject {
     img;
-    imageCache = {}; 
-    currentImage = 0; 
-    x = 120; 
-    y = 280; 
+    imageCache = {};
+    currentImage = 0;
+    x = 120;
+    y = 280;
     height = 150;
     width = 100;
 
@@ -31,7 +31,7 @@ class DrawableObject {
      * @param {CanvasRenderingContext2D} ctx - The 2D rendering context of the canvas.
      */
     draw(ctx) {
-            ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
     /**

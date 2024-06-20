@@ -19,7 +19,7 @@ class ThrowableObject extends MovableObject {
         'img_pollo_locco/img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ];
 
-    splash_sound = new Audio('audio/broken-bottle.mp3');  
+    splash_sound = new Audio('audio/broken-bottle.mp3');
 
     offset = {
         top: 2,
@@ -27,13 +27,7 @@ class ThrowableObject extends MovableObject {
         right: 4,
         bottom: 4
     };
-
-    /**
-     * Constructs a new ThrowableObject instance.
-     * @param {number} x - The initial x-coordinate of the object.
-     * @param {number} y - The initial y-coordinate of the object.
-     * @param {boolean} direction - The direction in which the object is thrown.
-     */
+    
     constructor(x, y, direction) {
         super().loadImage('img_pollo_locco/img/6_salsa_bottle/salsa_bottle.png');
         this.loadImages(this.IMAGES_BOTTLE_FLYING);
@@ -55,9 +49,9 @@ class ThrowableObject extends MovableObject {
         this.applyGravity();
         this.throwInterval = setInterval(() => {
             if (this.direction) {
-                this.x -= 4; 
+                this.x -= 4;
             } else {
-                this.x += 6; 
+                this.x += 6;
             }
             if (this.y > 360) {
                 this.splash();

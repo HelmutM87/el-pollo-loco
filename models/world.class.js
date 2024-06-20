@@ -29,11 +29,6 @@ class World {
     isBattleMusicPlaying = false;
     isMuted = false;
 
-    /**
-     * Constructs a new World instance.
-     * @param {HTMLCanvasElement} canvas - The canvas element where the game is rendered.
-     * @param {Keyboard} keyboard - The keyboard input handler.
-     */
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;

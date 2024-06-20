@@ -14,17 +14,14 @@ class BottleStatusBar extends DrawableObject {
         'img_pollo_locco/img/7_statusbars/1_statusbar/3_statusbar_bottle/green/100.png',
     ];
 
-    /**
-     * Creates an instance of BottleStatusBar.
-     */
     constructor() {
         super();
-        this.loadImages(this.IMAGES); 
+        this.loadImages(this.IMAGES);
         this.x = 20;
         this.y = 30;
         this.width = 150;
         this.height = 40;
-        this.setStock(0); 
+        this.setStock(0);
     }
 
     /**

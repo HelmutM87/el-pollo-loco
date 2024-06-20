@@ -3,19 +3,16 @@
  * Inherits from DrawableObject.
  */
 class MovableObject extends DrawableObject {
-    speed = 0.15;             
-    otherDirection = false;   
-    speedY = 0;               
-    acceleration = 2.5;       
-    energy = 100;             
-    bottleDepot = 0;          
-    lastHit = 0;              
-    lastKeyDown = 0;          
-    canSleep = true;       
+    speed = 0.15;
+    otherDirection = false;
+    speedY = 0;
+    acceleration = 2.5;
+    energy = 100;
+    bottleDepot = 0;
+    lastHit = 0;
+    lastKeyDown = 0;
+    canSleep = true;
 
-    /**
-     * Constructs a new MovableObject instance.
-     */
     constructor() {
         super();
         this.canSleep = true;
@@ -126,6 +123,6 @@ class MovableObject extends DrawableObject {
      * Method to handle object kill logic.
      */
     kill() {
-        // this.playAnimation(this.IMAGE_DEATH);
+
     }
 }

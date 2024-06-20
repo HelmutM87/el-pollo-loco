@@ -3,23 +3,23 @@
  * Handles its animations, behaviors, and interactions within the game.
  */
 class Endboss extends MovableObject {
-    height = 400; 
+    height = 400;
     width = 350;
     y = 55;
     energy = 100;
     lastHit = 0;
-    intervalIds = []; 
-    checkLiveInterval; 
+    intervalIds = [];
+    checkLiveInterval;
 
     offset = {
         top: 65,
         left: 30,
-        right: 30, 
+        right: 30,
         bottom: 0
     };
 
-    attack_sound = new Audio('audio/hen-attacs.mp3'); 
-    gack_sound = new Audio('audio/hen-gacks.mp3'); 
+    attack_sound = new Audio('audio/hen-attacs.mp3');
+    gack_sound = new Audio('audio/hen-gacks.mp3');
     enemy_dying_sound = new Audio('audio/chicken-dying.mp3');
 
     IMAGES_WALKING = [
@@ -38,7 +38,7 @@ class Endboss extends MovableObject {
         'img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G10.png',
         'img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G11.png',
         'img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G12.png'
-    ]; 
+    ];
 
     IMAGES_ATTACK = [
         'img_pollo_locco/img/4_enemie_boss_chicken/3_attack/G13.png',
@@ -61,12 +61,8 @@ class Endboss extends MovableObject {
         'img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G24.png',
         'img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G25.png',
         'img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G26.png'
-    ]; 
+    ];
 
-    /**
-     * Constructs an instance of Endboss.
-     * @param {Object} world - The game world where the Endboss exists.
-     */
     constructor(world) {
         super();
         this.world = world;

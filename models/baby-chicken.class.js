@@ -25,9 +25,6 @@ class BabyChicken extends MovableObject {
 
     enemy_dying_sound = new Audio('audio/baby-chicken-dying.mp3');
 
-    /**
-     * Creates an instance of BabyChicken.
-     */
     constructor() {
         super().loadImage('img_pollo_locco/img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
         this.loadImages(this.IMAGES_WALKING);
@@ -53,7 +50,7 @@ class BabyChicken extends MovableObject {
             this.playAnimation(this.IMAGE_DEATH);
             if (!isMuted)
                 this.enemy_dying_sound.play();
-        } else 
+        } else
             this.playAnimation(this.IMAGES_WALKING);
     }
 

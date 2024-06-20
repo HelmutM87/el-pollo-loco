@@ -45,6 +45,9 @@
 
     <div id="won" class="won_bg, d-none">
       <h1>YOU WON!</h1>
+      <div onclick="restartGame()" id="restart_button" class="replay_button">
+        RESTART
+      </div>
       <div onclick="resetGame()" id="replay_button" class="replay_button">
         MENU
       </div>
@@ -52,6 +55,9 @@
 
     <div id="lost" class="lost_bg, d-none">
       <div id="game_over_overlay" class="game_over_overlay">
+        <div onclick="restartGame()" id="restart_button" class="replay_button">
+          RESTART
+        </div>
         <div onclick="resetGame()" id="replay_button" class="replay_button">
           MENU
         </div>
@@ -104,6 +110,21 @@
       </div>
     </div>
 
+    <div id="impressum" class="info_bg d-none" onclick="closeImpressum()">
+      <h1>Impressum</h1>
+
+      <p>Helmut Martens<br />
+        Gnadental 350<br />
+        01153 Colonia Neuland PARAGUAY</p>
+
+      <h2>Kontakt</h2>
+      <p>Telefon: +49 (0) 15678693678<br />
+        E-Mail: helmut.martens87@gmail.com</p>
+
+      <p>Quelle: <a href="https://www.e-recht24.de">eRecht24</a></p>
+
+    </div>
+
     <div id="canvas_navbar_header" class="canvas_navbar_header">
       <img class="button, d-none" id="my_mute_button" onclick="world.toggleAudio()" src="/images/audio.png"
         alt="audio-button">
@@ -142,7 +163,7 @@
   </div>
 
   <div class="footer">
-    <div><a href="impressum.html">Impressum</a></div>
+    <div onclick="openImpressum()" style="cursor: pointer;">Impressum</div>
     <div> Icons by <a target="_blank" href="https://icons8.com">Icons8</a></div>
   </div>
 

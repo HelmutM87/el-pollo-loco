@@ -9,22 +9,18 @@ class CoinStatusBar extends DrawableObject {
         'img_pollo_locco/img/7_statusbars/1_statusbar/1_statusbar_coin/green/60.png',
         'img_pollo_locco/img/7_statusbars/1_statusbar/1_statusbar_coin/green/80.png',
         'img_pollo_locco/img/7_statusbars/1_statusbar/1_statusbar_coin/green/100.png',
-    ]; // Array of image paths representing different levels of the status bar.
+    ];
 
-    percentage = 100; 
+    percentage = 100;
 
-    /**
-     * Constructor for the CoinStatusBar class.
-     * Initializes the status bar with images, position, and dimensions.
-     */
     constructor() {
-        super(); 
+        super();
         this.loadImages(this.IMAGES);
-        this.x = 20; 
-        this.y = 60; 
-        this.width = 150; 
+        this.x = 20;
+        this.y = 60;
+        this.width = 150;
         this.height = 40;
-        this.setPercentage(0); 
+        this.setPercentage(0);
     }
 
     /**
@@ -33,9 +29,9 @@ class CoinStatusBar extends DrawableObject {
      * @param {number} percentage - The percentage value to set.
      */
     setPercentage(percentage) {
-        this.percentage = percentage; 
-        let path = this.IMAGES[this.resolveImageIndex()]; 
-        this.img = this.imageCache[path]; 
+        this.percentage = percentage;
+        let path = this.IMAGES[this.resolveImageIndex()];
+        this.img = this.imageCache[path];
     }
 
     /**

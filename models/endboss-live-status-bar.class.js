@@ -14,10 +14,6 @@ class EndbossStatusBar extends DrawableObject {
 
     percentage = 100;
 
-    /**
-     * Constructs an instance of EndbossStatusBar.
-     * Initializes position, dimensions, and loads images.
-     */
     constructor() {
         super();
         this.loadImages(this.IMAGES);
@@ -25,7 +21,7 @@ class EndbossStatusBar extends DrawableObject {
         this.y = 3;
         this.width = 150;
         this.height = 41;
-        this.setPercentage(100); 
+        this.setPercentage(100);
     }
 
     /**
