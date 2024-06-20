@@ -97,27 +97,58 @@ class World {
      * Checks for collisions between the character and various objects in the game.
      */
     checkCollisions() {
+        this.checkCollisionsWithEnemies();
+        this.checkCollisionWithCoins();
+        this.checkCollisionWithBottlesOnGround();
+        this.checkCollisionsWithThrowableObjects();
+    }
+
+    /**
+     * Checks for collisions between the character and enemies.
+     */
+    checkCollisionsWithEnemies() {
         this.level.enemies.forEach((enemy, index) => {
             if (this.character.isTrampling(enemy)) {
-                if (enemy instanceof Endboss) {
-                } else {
-                    this.character.jump();
-                    enemy.isKilled(index);
-                    setTimeout(() => {
-                        this.deleteEnemy(index);
-                    }, 800);
-                }
+                this.handleTrampling(enemy, index);
             } else if (this.character.isColliding(enemy)) {
-                this.character.hit();
-                this.liveStatusBar.setPercentage(this.character.energy);
-                if (enemy instanceof Endboss) {
-                    this.canPressRightArrow = false;
-                }
+                this.handleEnemyCollision(enemy);
             } else if (enemy instanceof Endboss && !this.character.isColliding(enemy)) {
                 this.canPressRightArrow = true;
             }
         });
+    }
 
+    /**
+     * Handles the trampling of an enemy.
+     * @param {Enemy} enemy - The enemy being trampled.
+     * @param {number} index - The index of the enemy in the enemies array.
+     */
+    handleTrampling(enemy, index) {
+        if (!(enemy instanceof Endboss)) {
+            this.character.jump();
+            enemy.isKilled(index);
+            setTimeout(() => {
+                this.deleteEnemy(index);
+            }, 800);
+        }
+    }
+
+    /**
+     * Handles collision with an enemy.
+     * @param {Enemy} enemy - The enemy colliding with the character.
+     */
+    handleEnemyCollision(enemy) {
+        this.character.hit();
+        this.liveStatusBar.setPercentage(this.character.energy);
+        if (enemy instanceof Endboss) {
+            this.canPressRightArrow = false;
+        }
+    }
+
+    /**
+     * Checks for collisions between the character and coins.
+     */
+    checkCollisionWithCoins() {
         this.level.coins.forEach((coin, index) => {
             if (this.character.isColliding(coin)) {
                 this.character.pickCoin(coin);
@@ -128,7 +159,12 @@ class World {
                 this.liveStatusBar.setPercentage(this.character.energy);
             }
         });
+    }
 
+    /**
+     * Checks for collisions between the character and bottles on the ground.
+     */
+    checkCollisionWithBottlesOnGround() {
         this.level.bottles.forEach((bottle, index) => {
             if (this.character.isColliding(bottle)) {
                 this.character.pickBottle();
@@ -139,29 +175,61 @@ class World {
                 this.bottleStatusBar.setStock(this.character.bottleDepot);
             }
         });
+    }
 
+    /**
+     * Checks for collisions between throwable objects and enemies.
+     */
+    checkCollisionsWithThrowableObjects() {
         this.throwableObjects.forEach((bottle) => {
             this.level.enemies.forEach((enemy, enemyIndex) => {
                 if (bottle.isColliding(enemy)) {
-                    bottle.splash();
-                    if (enemy instanceof Endboss) {
-                        if (enemy.energy < 1) {
-                            this.deleteEndboss();
-                            this.winningGame();
-                        } else {
-                            enemy.hit(2);
-                            this.endbossStatusBar.setPercentage(enemy.energy);
-                            this.switchToBattleMusic();
-                        }
-                    } else {
-                        enemy.isKilled(enemyIndex);
-                        setTimeout(() => {
-                            this.deleteEnemy(enemyIndex);
-                        }, 800);
-                    }
+                    this.handleBottleCollision(bottle, enemy, enemyIndex);
                 }
             });
         });
+    }
+
+    /**
+     * Handles the collision of a bottle with an enemy.
+     * @param {ThrowableObject} bottle - The bottle colliding with the enemy.
+     * @param {Enemy} enemy - The enemy being hit by the bottle.
+     * @param {number} enemyIndex - The index of the enemy in the enemies array.
+     */
+    handleBottleCollision(bottle, enemy, enemyIndex) {
+        bottle.splash();
+        if (enemy instanceof Endboss) {
+            this.handleEndbossHit(enemy);
+        } else {
+            this.handleEnemyHit(enemy, enemyIndex);
+        }
+    }
+
+    /**
+     * Handles the hit on the Endboss.
+     * @param {Endboss} endboss - The Endboss being hit.
+     */
+    handleEndbossHit(endboss) {
+        if (endboss.energy < 1) {
+            this.deleteEndboss();
+            this.winningGame();
+        } else {
+            endboss.hit(2);
+            this.endbossStatusBar.setPercentage(endboss.energy);
+            this.switchToBattleMusic();
+        }
+    }
+
+    /**
+     * Handles the hit on an enemy.
+     * @param {Enemy} enemy - The enemy being hit.
+     * @param {number} index - The index of the enemy in the enemies array.
+     */
+    handleEnemyHit(enemy, index) {
+        enemy.isKilled(index);
+        setTimeout(() => {
+            this.deleteEnemy(index);
+        }, 800);
     }
 
     /**

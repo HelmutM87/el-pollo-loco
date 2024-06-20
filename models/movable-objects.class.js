@@ -118,11 +118,4 @@ class MovableObject extends DrawableObject {
         this.playAnimation(this.IMAGE_DEATH);
         this.enemy_dying_sound.play();
     }
-
-    /**
-     * Method to handle object kill logic.
-     */
-    kill() {
-
-    }
 }
