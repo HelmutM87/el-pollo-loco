@@ -38,9 +38,8 @@ class World {
         this.run();
         this.isBattleMusicPlaying = false;
         this.level.enemies.forEach(enemy => {
-            if (enemy instanceof Endboss) {
+            if (enemy instanceof Endboss)
                 enemy.world = this;
-            }
         });
     }
 
@@ -108,13 +107,12 @@ class World {
      */
     checkCollisionsWithEnemies() {
         this.level.enemies.forEach((enemy, index) => {
-            if (this.character.isTrampling(enemy)) {
+            if (this.character.isTrampling(enemy))
                 this.handleTrampling(enemy, index);
-            } else if (this.character.isColliding(enemy)) {
+            else if (this.character.isColliding(enemy))
                 this.handleEnemyCollision(enemy);
-            } else if (enemy instanceof Endboss && !this.character.isColliding(enemy)) {
+            else if (enemy instanceof Endboss && !this.character.isColliding(enemy))
                 this.canPressRightArrow = true;
-            }
         });
     }
 
@@ -140,9 +138,8 @@ class World {
     handleEnemyCollision(enemy) {
         this.character.hit();
         this.liveStatusBar.setPercentage(this.character.energy);
-        if (enemy instanceof Endboss) {
+        if (enemy instanceof Endboss)
             this.canPressRightArrow = false;
-        }
     }
 
     /**
@@ -183,9 +180,8 @@ class World {
     checkCollisionsWithThrowableObjects() {
         this.throwableObjects.forEach((bottle) => {
             this.level.enemies.forEach((enemy, enemyIndex) => {
-                if (bottle.isColliding(enemy)) {
+                if (bottle.isColliding(enemy))
                     this.handleBottleCollision(bottle, enemy, enemyIndex);
-                }
             });
         });
     }
@@ -198,11 +194,10 @@ class World {
      */
     handleBottleCollision(bottle, enemy, enemyIndex) {
         bottle.splash();
-        if (enemy instanceof Endboss) {
+        if (enemy instanceof Endboss)
             this.handleEndbossHit(enemy);
-        } else {
+        else
             this.handleEnemyHit(enemy, enemyIndex);
-        }
     }
 
     /**
@@ -279,9 +274,8 @@ class World {
             this.flipImage(mo);
         }
         mo.draw(this.ctx);
-        if (mo.otherDirection) {
+        if (mo.otherDirection)
             this.flipImageBack(mo);
-        }
     }
 
     /**
@@ -330,13 +324,11 @@ class World {
         world.battle_music.muted = isMuted;
         world.win_music.muted = isMuted;
         world.lose_music.muted = isMuted;
-
         const muteButton = document.getElementById('my_mute_button');
-        if (isMuted) {
+        if (isMuted)
             muteButton.src = '/images/mute.png';
-        } else {
+        else
             muteButton.src = '/images/audio.png';
-        }
     }
 
     /**
