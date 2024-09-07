@@ -54,6 +54,7 @@ canvas {
     overflow: hidden;
     border-radius: 16px;
     position: absolute;
+
 }
 
 .canvas_navbar_header {
@@ -260,11 +261,14 @@ canvas {
     }
 }
 
-@media only screen and (max-height: 480px) {
+@media only screen and (max-height: 630px){
 
     h1 {
         display: none;
     }
+}
+
+@media only screen and (max-height: 480px) {
 
     canvas {
         height: 100vh;
