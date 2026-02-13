@@ -30,6 +30,8 @@ class World {
     isMuted = false;
 
     constructor(canvas, keyboard) {
+        this.background_music.loop = true;
+        this.battle_music.loop = true;
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
