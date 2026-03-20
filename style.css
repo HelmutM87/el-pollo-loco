@@ -114,7 +114,7 @@ canvas {
     z-index: 1000;
 }
 
-.won_bg {
+/* .won_bg {
     display: flex;
     align-items: center;
     height: 480px;
@@ -122,6 +122,48 @@ canvas {
     background-position: center;
     background-size: cover;
     justify-content: center;
+} */
+
+.won-screen {
+    position: relative;
+    width: 720px;
+    height: 480px;
+    overflow: hidden;
+    border-radius: 16px;
+}
+
+.win-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;           /* oder contain – je nach Video */
+    z-index: 1;
+}
+
+.win-content {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    text-shadow: 2px 2px 8px #0008;
+}
+
+.replay_button {
+    /* dein bisheriger Style + */
+    position: relative;
+    z-index: 10;
+    margin: 20px 0;
+    padding: 12px 40px;
+    font-size: 36px;
+    background: #ca633d;
+    border-radius: 12px;
+    cursor: pointer;
 }
 
 .end_screen_won {
@@ -129,7 +171,7 @@ canvas {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-image: url('/images/won.jpeg');
+    background-image: url('/images/won.jpg');
     background-position: center;
     height: 480px;
     width: 720px;
@@ -138,15 +180,20 @@ canvas {
     border-radius: 16px;
 }
 
+.winner_restart_buttons {
+    display: flex;
+    
+}
+
 .replay_button {
-    font-size: 40px;
-    background-color: #ca633d;
-    border-radius: 8px;
-    padding: 5px;
+    margin: 20px 20px;
+    padding: 12px 40px;
+    font-size: 32px;
+    min-width: 220px;
+    background: #ca633d;
+    border-radius: 12px;
     cursor: pointer;
-    z-index: 999;
-    margin-bottom: 50px;
-    text-align: center;
+    transition: all 0.2s;
 }
 
 .end_screen_lost {
@@ -178,14 +225,89 @@ canvas {
 }
 
 .game_over_overlay {
-    background-image: url('/img_pollo_locco/img/9_intro_outro_screens/game_over/game\ over.png');
-    height: 480px;
+    background-image: none;
+    height: auto;
+    width: auto;
     display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 40px;
+    text-align: center;
+    color: white;
+    text-shadow: 2px 2px 6px #000;
+}
+
+.lost-screen {
+    position: relative;
+    width: 720px;
+    height: 480px;
+    max-height: 100vh;
+    max-width: 100vw;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.lost-bg-fallback {
+    position: absolute;
+    inset: 0;
+    background-image: url('/img_pollo_locco/img/9_intro_outro_screens/game_over/game over.png');
     background-size: cover;
     background-position: center;
+    z-index: 1;
+}
+
+.lost-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;           /* oder 'contain', je nachdem wie das Video aussehen soll */
+    z-index: 2;
+}
+
+.lost-content {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
     justify-content: center;
+    
+}
+
+/* Dein bestehender game_over_overlay Style kann fast so bleiben */
+.game_over_overlay {
+    background-image: none;           
+    height: auto;                     
+    width: auto;
+    display: flex;
+    flex-direction: row;
     align-items: center;
-    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+    color: white;                    
+    text-shadow: 2px 2px 6px #000;
+}
+
+/* Optional: Buttons noch etwas hervorheben */
+.replay_button {
+    margin: 20px 20px;
+    padding: 12px 40px;
+    font-size: 32px;
+    min-width: 220px;
+    background: #ca633d;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.replay_button:hover {
+    background: #e07045;
+    transform: scale(1.06);
 }
 
 .start_screen {
@@ -265,6 +387,9 @@ canvas {
 
     h1 {
         display: none;
+    }
+    .win-content{
+        height: 80%;
     }
 }
 
